@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#132b4f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Lavanya EB">
+  <link rel="manifest" href="lavanya-eb.webmanifest">
+  <link rel="apple-touch-icon" href="lseb-icon.svg">
+  <link rel="icon" href="lseb-icon.svg" type="image/svg+xml">
+  <title>Lavanya Singh Electricity Board</title>
+  <style>
+    :root { --navy:#132b4f; --blue:#2667d7; --sky:#eaf2ff; --mint:#e7f8ee; --green:#159b62; --ink:#172033; --muted:#687085; --line:#e5e8f0; --orange:#f59c22; --danger:#cf4b4b; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:320px; background:linear-gradient(160deg,#edf4ff 0%,#f7f8fc 45%,#eaf8f4 100%); color:var(--ink); font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    button,input { font:inherit; }
+    button { border:0; cursor:pointer; transition:transform .18s ease,box-shadow .18s ease,background .18s ease; }
+    button:active { transform:scale(.98); }
+    .app { width:min(1120px,100%); margin:0 auto; padding:20px max(16px,env(safe-area-inset-right)) 42px max(16px,env(safe-area-inset-left)); }
+    .hero { position:relative; overflow:hidden; padding:28px; color:#fff; border-radius:26px; background:linear-gradient(125deg,#10294c,#1e5dbc 70%,#28a8a0); box-shadow:0 17px 40px #15397033; }
+    .hero::before,.hero::after { content:""; position:absolute; border:1px solid #ffffff30; border-radius:50%; }
+    .hero::before { width:290px;height:290px;right:-82px;top:-165px; }
+    .hero::after { width:170px;height:170px;right:13%;bottom:-125px; }
+    .brand,.hero-copy,.hero-status { position:relative;z-index:1; }
+    .brand { display:flex;gap:12px;align-items:center; }
+    .mark { width:46px;height:46px;display:grid;place-items:center;border-radius:15px;background:#fff;color:var(--blue);font-size:25px;box-shadow:0 8px 20px #0002; }
+    .brand b { font-size:15px;letter-spacing:.08em;text-transform:uppercase; }
+    .brand span { display:block;margin-top:1px;color:#d6e5ff;font-size:12px; }
+    .hero-copy { max-width:620px;margin-top:32px; }
+    h1 { margin:0;font-size:clamp(27px,5vw,43px);line-height:1.08;letter-spacing:-.045em; }
+    .hero-copy p { max-width:510px;margin:11px 0 0;color:#dcecff;font-size:16px; }
+    .hero-status { display:inline-flex;align-items:center;gap:8px;margin-top:22px;padding:8px 12px;border:1px solid #ffffff38;border-radius:99px;background:#ffffff13;color:#edf6ff;font-size:12px; }
+    .install-btn { position:absolute;top:22px;right:22px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid #ffffff4a;border-radius:11px;background:#ffffff1c;color:#fff;font-size:12px;font-weight:800; }
+    .install-btn:hover { background:#ffffff30; }
+    .pulse { width:8px;height:8px;border-radius:50%;background:#75f3bd;box-shadow:0 0 0 4px #75f3bd35; }
+    .steps { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0; }
+    .step { display:flex;align-items:center;gap:9px;min-width:0;padding:11px 13px;border:1px solid #dce5f4;border-radius:15px;background:#ffffffb8;color:var(--muted);font-size:13px;font-weight:700; }
+    .step-no { width:24px;height:24px;flex:0 0 24px;display:grid;place-items:center;border-radius:8px;background:var(--sky);color:var(--blue);font-size:12px; }
+    .card { margin-top:16px;padding:23px;border:1px solid #e2e8f3;border-radius:21px;background:#fffffff0;box-shadow:0 8px 30px #274a7d0d; }
+    .section-head { display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px; }
+    h2 { margin:0;font-size:19px;letter-spacing:-.025em; }
+    .eyebrow { margin:2px 0 0;color:var(--muted);font-size:13px; }
+    .tag { padding:6px 10px;border-radius:99px;background:var(--sky);color:var(--blue);font-size:11px;font-weight:800;white-space:nowrap; }
+    .grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px; }
+    label { display:block;color:#40485b;font-size:12px;font-weight:800;letter-spacing:.02em; }
+    input { width:100%;margin-top:6px;padding:12px 13px;border:1px solid #d8deea;border-radius:12px;outline:none;background:#fff;color:var(--ink); }
+    input:focus { border-color:#6092ea;box-shadow:0 0 0 4px #2869d71a; }
+    input[type="file"] { padding:9px; }
+    .actions { display:flex;flex-wrap:wrap;gap:9px;margin-top:18px; }
+    .btn { display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:43px;padding:10px 15px;border-radius:12px;font-weight:800;font-size:13px; }
+    .btn:hover { transform:translateY(-1px);box-shadow:0 8px 16px #1632601c; }
+    .primary { background:var(--blue);color:#fff; }.green { background:var(--green);color:#fff; }.orange { background:#fff1d8;color:#ae6500; }.gray { background:#edf0f5;color:#3f4756; }
+    .helper { margin:13px 0 0;color:var(--muted);font-size:12px; }
+    .people { display:flex;flex-wrap:wrap;gap:8px;margin-top:16px; }
+    .person { padding:9px 12px;border:1px solid #dce1eb;border-radius:10px;background:#fff;color:#3b4559;font-size:13px;font-weight:700; }
+    .person.active { border-color:var(--blue);background:var(--blue);color:#fff;box-shadow:0 5px 12px #2667d733; }
+    .auto-reading { min-height:18px;margin:12px 0 0;color:#27815a;font-size:12px;font-weight:700; }
+    .records { overflow-x:auto;border:1px solid var(--line);border-radius:14px; }
+    table { width:100%;border-collapse:collapse;min-width:640px;font-size:13px; }
+    th,td { padding:12px 13px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap; }
+    th { background:#f4f7fd;color:#5d6679;font-size:11px;letter-spacing:.04em;text-transform:uppercase; }
+    tr:last-child td { border-bottom:0; }
+    .amount { color:#128054;font-weight:800; }.empty { padding:23px;color:var(--muted);text-align:center; }
+    .preview-wrap { overflow:hidden;border:1px solid #dce5f0;border-radius:16px;background:#f3f6fb; }
+    .preview { display:block;width:100%;height:auto;max-height:660px;object-fit:contain; }.hidden { display:none; }
+    .bill-note { margin:0 0 14px;color:var(--muted);font-size:12px; }
+    canvas { display:none; }
+    @media (max-width:650px) { .app { padding-top:12px; }.hero { padding:21px;border-radius:20px; }.install-btn { top:17px;right:17px;padding:8px 9px;font-size:11px; }.brand { max-width:200px; }.hero-copy { margin-top:24px; }.hero-copy p { font-size:14px; }.steps { gap:7px; }.step { padding:9px 8px;font-size:11px; }.step-no { width:21px;height:21px;flex-basis:21px; }.card { padding:18px 15px;border-radius:17px; }.grid { grid-template-columns:1fr;gap:13px; }.section-head { margin-bottom:16px; }.actions .btn { flex:1 1 140px; }.actions .orange { flex-basis:100%; }.person { flex:1 1 auto; }.tag { display:none; } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <button id="installButton" class="install-btn" type="button" onclick="installApp()">⇩ Install app</button>
+      <div class="brand"><div class="mark">⚡</div><div><b>Lavanya Singh</b><span>Electricity Board</span></div></div>
+      <div class="hero-copy"><h1>Your energy record, beautifully organised.</h1><p>Save meter readings, calculate monthly consumption, and share a clear bill record from any phone.</p></div>
+      <div class="hero-status"><span class="pulse"></span> Private browser-based records</div>
+    </header>
+
+    <nav class="steps" aria-label="How to use the app">
+      <div class="step"><span class="step-no">1</span> Consumer</div><div class="step"><span class="step-no">2</span> Reading</div><div class="step"><span class="step-no">3</span> Bill record</div>
+    </nav>
+
+    <section class="card">
+      <div class="section-head"><div><h2>Consumer profile</h2><p class="eyebrow">Create or select the meter holder.</p></div><span class="tag">STEP 01</span></div>
+      <div class="grid">
+        <label>Consumer name<input id="pName" placeholder="Enter full name" autocomplete="name"></label>
+        <label>Consumer number<input id="pConsumer" placeholder="Enter consumer number" inputmode="numeric"></label>
+        <label>Address<input id="pAddress" placeholder="Enter address" autocomplete="street-address"></label>
+        <label>Meter number<input id="pMeter" placeholder="e.g. LSEB-001" autocapitalize="characters"></label>
+      </div>
+      <div class="actions"><button class="btn primary" onclick="savePerson()">💾 Save consumer</button><button class="btn orange" onclick="newPerson()">＋ Add another consumer</button></div>
+      <p class="helper">Your records stay saved only in this browser on this device.</p><div id="people" class="people"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><div><h2>Monthly meter reading</h2><p class="eyebrow">Enter the latest reading to calculate your bill.</p></div><span class="tag">STEP 02</span></div>
+      <div class="grid">
+        <label>Billing month<input id="month" type="month"></label>
+        <label>Current meter unit<input id="current" type="number" min="0" placeholder="e.g. 1250" inputmode="decimal"></label>
+        <label>Previous meter unit<input id="old" type="number" min="0" placeholder="e.g. 1200" inputmode="decimal"></label>
+        <label>Meter photo (optional)<input id="photo" type="file" accept="image/*" capture="environment"></label>
+      </div>
+      <p id="autoOld" class="auto-reading"></p><div class="actions"><button class="btn primary" onclick="saveMonth()">💾 Save reading</button><button class="btn green" onclick="generateBill()">🧾 Create bill preview</button></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><div><h2>Reading history</h2><p class="eyebrow">View the previous monthly records for this meter.</p></div><span class="tag">SAVED</span></div>
+      <div id="history" class="records"><div class="empty">Select a consumer to see records.</div></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><div><h2>Bill preview</h2><p class="eyebrow">A personal record — not an official utility bill.</p></div><span class="tag">STEP 03</span></div>
+      <p class="bill-note">Generate the preview, then save it or share it directly from a mobile phone.</p>
+      <div class="preview-wrap"><img id="preview" class="preview hidden" alt="Generated Lavanya Singh Electricity Board bill"></div>
+      <div class="actions"><button class="btn green" onclick="shareBill()">📤 Share bill image</button><button class="btn gray" onclick="downloadBill()">⬇ Save bill image</button></div>
+    </section>
+    <canvas id="canvas" width="1200" height="1700"></canvas>
+  </main>
+
+  <script>
+    const KEY = 'lavanya_singh_electricity_board_v1';
+    let data = JSON.parse(localStorage.getItem(KEY) || '{"people":{}}');
+    let selected = null, selectedRecord = null, photoData = null, finalImage = null;
+    const $ = id => document.getElementById(id);
+    const money = n => '₹' + Number(n).toFixed(2);
+    function persist(){ localStorage.setItem(KEY, JSON.stringify(data)); }
+    function makeID(){ return 'LSEB' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+    function renderPeople(){ const el=$('people'); el.innerHTML=''; Object.entries(data.people).forEach(([key,p])=>{ const b=document.createElement('button'); b.className='person '+(key===selected?'active':''); b.textContent=(p.meter||'Meter')+' · '+(p.name||'Unnamed'); b.onclick=()=>selectPerson(key); el.appendChild(b); }); }
+    function savePerson(){ const name=$('pName').value.trim(), meter=$('pMeter').value.trim(); if(!name||!meter) return alert('Consumer Name and Meter Number are required.'); const key=selected||makeID(); data.people[key]={name, meter, consumer:$('pConsumer').value.trim(), address:$('pAddress').value.trim(), records:data.people[key]?.records||[]}; selected=key; persist(); renderPeople(); loadPerson(); alert('Consumer profile saved successfully.'); }
+    function selectPerson(key){ selected=key; selectedRecord=null; renderPeople(); loadPerson(); hidePreview(); }
+    function loadPerson(){ const p=data.people[selected]; if(!p) return; $('pName').value=p.name||''; $('pConsumer').value=p.consumer||''; $('pAddress').value=p.address||''; $('pMeter').value=p.meter||''; updateAutoOld(); renderHistory(); }
+    function newPerson(){ selected=null; selectedRecord=null; photoData=null; ['pName','pConsumer','pAddress','pMeter','current','old','month','photo'].forEach(id=>$(id).value=''); $('autoOld').textContent=''; $('history').innerHTML='<div class="empty">Select a consumer to see records.</div>'; hidePreview(); renderPeople(); }
+    function updateAutoOld(){ if(!selected) return $('autoOld').textContent=''; const records=data.people[selected].records||[]; if(!records.length) return $('autoOld').textContent=''; const last=[...records].sort((a,b)=>a.month.localeCompare(b.month)).at(-1); $('old').value=last.current; $('autoOld').textContent='Previous current unit: '+last.current+' — filled in automatically.'; }
+    $('photo').addEventListener('change',e=>{ const file=e.target.files[0]; if(!file) return photoData=null; const reader=new FileReader(); reader.onload=event=>photoData=event.target.result; reader.readAsDataURL(file); });
+    function readForm(){ const month=$('month').value, current=Number($('current').value), old=Number($('old').value); if(!month||$('current').value===''||$('old').value===''||Number.isNaN(current)||Number.isNaN(old)||current<old){ alert('Enter a valid month and meter reading. Current unit cannot be lower than previous unit.'); return null; } return {month,current,old,used:current-old,rate:5,charge:(current-old)*5,photo:photoData||''}; }
+    function saveMonth(){ if(!selected) return alert('First save or select a consumer.'); const record=readForm(); if(!record) return; const records=data.people[selected].records, existing=records.findIndex(x=>x.month===record.month); if(existing>=0) records[existing]=record; else records.push(record); records.sort((a,b)=>a.month.localeCompare(b.month)); selectedRecord=record; persist(); renderHistory(); updateAutoOld(); alert('Monthly reading saved successfully.'); }
+    function renderHistory(){ if(!selected) return; const records=data.people[selected].records||[]; if(!records.length){ $('history').innerHTML='<div class="empty">No monthly records saved yet.</div>'; return; } let html='<table><thead><tr><th>Month</th><th>Previous</th><th>Current</th><th>Used</th><th>Rate</th><th>Total</th><th></th></tr></thead><tbody>'; records.slice().reverse().forEach(x=>html+=`<tr><td>${x.month}</td><td>${x.old}</td><td>${x.current}</td><td>${x.used} units</td><td>₹${x.rate}</td><td class="amount">${money(x.charge)}</td><td><button class="btn primary" onclick="viewRecord('${x.month}')">View bill</button></td></tr>`); $('history').innerHTML=html+'</tbody></table>'; }
+    function viewRecord(month){ selectedRecord=data.people[selected].records.find(x=>x.month===month); $('month').value=selectedRecord.month; $('current').value=selectedRecord.current; $('old').value=selectedRecord.old; photoData=selectedRecord.photo||''; generateBill(); }
+    function generateBill(){ if(!selected) return alert('Select a consumer first.'); selectedRecord=readForm(); if(!selectedRecord) return; drawBill(data.people[selected],selectedRecord); }
+    function drawBill(person,r){ const canvas=$('canvas'),ctx=canvas.getContext('2d'),W=1200,H=1700; ctx.clearRect(0,0,W,H); ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H); ctx.strokeStyle='#173e70';ctx.lineWidth=4;ctx.strokeRect(8,8,W-16,H-16); ctx.fillStyle='#132b4f';ctx.fillRect(10,10,1180,155); ctx.fillStyle='#fff';ctx.font='bold 21px Arial';ctx.fillText('LAVANYA SINGH ELECTRICITY BOARD',45,58);ctx.font='16px Arial';ctx.fillStyle='#dbeaff';ctx.fillText('Personal Energy Record · Monthly Statement',45,87);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='bold 40px Arial';ctx.fillText('⚡ ELECTRICITY BILL',600,82);ctx.font='18px Arial';ctx.fillText('Computer-generated monthly record',600,121);ctx.textAlign='right';ctx.font='bold 18px Arial';ctx.fillText('BILL MONTH',1145,57);ctx.font='18px Arial';ctx.fillText(r.month,1145,88);ctx.textAlign='left';
+      ctx.fillStyle='#173e70';ctx.font='bold 19px Arial';ctx.fillText('CONSUMER DETAILS',45,210);ctx.fillStyle='#222';ctx.font='18px Arial'; detail(ctx,'Consumer Name:',person.name||'-',45,250,240);detail(ctx,'Consumer Number:',person.consumer||'-',45,290,240);detail(ctx,'Address:',person.address||'-',45,330,240);detail(ctx,'Meter Number:',person.meter||'-',700,250,900);detail(ctx,'Billing Date:',new Date().toLocaleDateString(),700,290,900);detail(ctx,'Record ID:','LSEB-'+Date.now(),700,330,900);
+      box(ctx,35,380,350,470,'CONSUMPTION DETAILS'); [['Current meter unit',r.current],['Previous meter unit',r.old],['Monthly consumption',r.used+' unit'],['Rate per unit','₹'+r.rate],['Calculation',r.used+' × '+r.rate]].forEach((x,i)=>row(ctx,50,455+i*60,320,x[0],x[1])); totalBox(ctx,50,775,320,r.charge);
+      box(ctx,410,380,350,470,'METER PHOTO'); if(r.photo){ const image=new Image(); image.onload=()=>{fitImage(ctx,image,430,445,310,330);finishBill(ctx,canvas);}; image.src=r.photo; return; } ctx.fillStyle='#6c7482';ctx.font='20px Arial';ctx.textAlign='center';ctx.fillText('No meter photo uploaded',585,620);ctx.textAlign='left';finishBill(ctx,canvas); }
+    function finishBill(ctx,canvas){ const r=selectedRecord; box(ctx,785,380,380,470,'BILL SUMMARY'); [['Energy charge ('+r.used+' × ₹'+r.rate+')',money(r.charge)],['Fixed charge','₹0.00'],['Electricity duty','₹0.00'],['Meter rent','₹0.00'],['Total charges',money(r.charge)]].forEach((x,i)=>row(ctx,800,450+i*60,350,x[0],x[1])); totalBox(ctx,800,750,350,r.charge); box(ctx,35,890,1130,260,'IMPORTANT INFORMATION');ctx.fillStyle='#222';ctx.font='18px Arial';['• Monthly consumption = Current unit − Previous unit','• Monthly rate used in this app: ₹5 per unit','• Verify the meter reading before making a payment','• This is a personal record, not an official utility bill'].forEach((text,i)=>ctx.fillText(text,60,945+i*42)); box(ctx,35,1190,550,310,'MONTHLY RECORD');ctx.font='19px Arial';[['Month',r.month],['Previous unit',r.old],['Current unit',r.current],['Consumed',r.used+' unit'],['Amount',money(r.charge)]].forEach((x,i)=>detail(ctx,x[0]+':',x[1],60,1250+i*50,300));box(ctx,615,1190,550,310,'PAYMENT SUMMARY');[['Amount due',money(r.charge)],['Status','Pending / as applicable'],['Bill month',r.month],['Record ID','REC-'+Date.now()],['Issued by','Lavanya Singh EB']].forEach((x,i)=>detail(ctx,x[0]+':',x[1],645,1250+i*50,900));ctx.fillStyle='#e6effb';ctx.fillRect(10,1540,1180,150);ctx.fillStyle='#173e70';ctx.font='bold 19px Arial';ctx.fillText('Lavanya Singh Electricity Board',55,1588);ctx.font='16px Arial';ctx.fillText('Smart energy records for every home',55,1618);ctx.textAlign='right';ctx.font='bold 19px Arial';ctx.fillText('Total: '+money(r.charge),1145,1588);ctx.font='16px Arial';ctx.fillText('Thank you',1145,1618);ctx.textAlign='left';finalImage=canvas.toDataURL('image/png');$('preview').src=finalImage;$('preview').classList.remove('hidden'); }
+    function detail(ctx,label,value,x,y,valueX){ctx.fillText(label,x,y);ctx.fillText(String(value),valueX,y);} function box(ctx,x,y,w,h,title){ctx.strokeStyle='#cbd4e1';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);ctx.fillStyle='#173e70';ctx.fillRect(x,y,w,48);ctx.fillStyle='#fff';ctx.font='bold 20px Arial';ctx.textAlign='center';ctx.fillText(title,x+w/2,y+31);ctx.textAlign='left';} function row(ctx,x,y,w,label,value){ctx.fillStyle='#222';ctx.font='17px Arial';ctx.fillText(label,x,y);ctx.textAlign='right';ctx.fillText(String(value),x+w,y);ctx.textAlign='left';ctx.strokeStyle='#ddd';ctx.beginPath();ctx.moveTo(x,y+14);ctx.lineTo(x+w,y+14);ctx.stroke();} function totalBox(ctx,x,y,w,amount){ctx.fillStyle='#e7f8ee';ctx.fillRect(x,y,w,60);ctx.fillStyle='#168451';ctx.font='bold 25px Arial';ctx.fillText('TOTAL BILL',x+15,y+38);ctx.textAlign='right';ctx.fillText(money(amount),x+w-15,y+38);ctx.textAlign='left';} function fitImage(ctx,image,x,y,w,h){const s=Math.min(w/image.width,h/image.height),nw=image.width*s,nh=image.height*s;ctx.drawImage(image,x+(w-nw)/2,y+(h-nh)/2,nw,nh);}
+    function downloadBill(){ if(!finalImage) return alert('Create the bill preview first.');const link=document.createElement('a');link.href=finalImage;link.download='lavanya-singh-electricity-bill.png';link.click(); }
+    async function shareBill(){ if(!finalImage) return alert('Create the bill preview first.'); const blob=await (await fetch(finalImage)).blob(),file=new File([blob],'lavanya-singh-electricity-bill.png',{type:'image/png'}); if(navigator.share&&navigator.canShare?.({files:[file]})){try{await navigator.share({title:'Lavanya Singh Electricity Board',text:'Monthly electricity bill record',files:[file]});}catch(e){}}else alert('Direct sharing is unavailable here. Save the image and share it from your phone.'); }
+    let installPrompt = null;
+    window.addEventListener('beforeinstallprompt', event => { event.preventDefault(); installPrompt = event; });
+    window.addEventListener('appinstalled', () => { $('installButton').hidden = true; installPrompt = null; });
+    async function installApp(){
+      if (installPrompt) { installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; return; }
+      const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      alert(ios ? 'To install: tap the Share button in Safari, then choose “Add to Home Screen”.' : 'To install this app, open it in Chrome or Edge from an HTTPS website, then choose “Install app” from the browser menu.');
+    }
+    if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) $('installButton').hidden = true;
+    if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));
+    function hidePreview(){finalImage=null;$('preview').classList.add('hidden');$('preview').removeAttribute('src');} renderPeople();
+  </script>
+</body>
+</html>
