@@ -1,0 +1,11 @@
+{
+  "name": "Lavanya Singh Electricity Board",
+  "short_name": "Electricity Board",
+  "description": "Electricity meter and bill management app",
+  "start_url": "/Electricity-Board/",
+  "scope": "/Electricity-Board/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e66d0",
+  "orientation": "portrait"
+}
