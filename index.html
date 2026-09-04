@@ -1,21 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.webmanifest">
-  
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#1e66d0">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+      content="default">
+
+<link rel="manifest" href="./manifest.webmanifest">
+
 <title>Lavanya Singh Electricity Board</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:#eef4ff;
   color:#172033;
 }
+
+/* HEADER */
 
 header{
   background:linear-gradient(135deg,#132b4f,#2667d7);
@@ -56,6 +74,8 @@ h1{
   opacity:.85;
 }
 
+/* MAIN */
+
 .container{
   max-width:1100px;
   margin:auto;
@@ -74,6 +94,8 @@ h2{
   margin-top:0;
 }
 
+/* FORM */
+
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -91,7 +113,9 @@ label{
   font-size:14px;
 }
 
-input,select,textarea{
+input,
+select,
+textarea{
   width:100%;
   padding:13px;
   border:1px solid #d5dbea;
@@ -100,7 +124,9 @@ input,select,textarea{
   outline:none;
 }
 
-input:focus,select:focus,textarea:focus{
+input:focus,
+select:focus,
+textarea:focus{
   border-color:#2667d7;
 }
 
@@ -108,6 +134,8 @@ textarea{
   min-height:80px;
   resize:vertical;
 }
+
+/* BUTTONS */
 
 button{
   border:0;
@@ -144,6 +172,8 @@ button:hover{
   background:#198754;
 }
 
+/* CONSUMERS */
+
 .consumer-list{
   display:grid;
   gap:10px;
@@ -168,6 +198,8 @@ button:hover{
   color:#687085;
 }
 
+/* TABLE */
+
 .reading-table{
   width:100%;
   border-collapse:collapse;
@@ -184,6 +216,8 @@ button:hover{
 .reading-table th{
   background:#f1f5fb;
 }
+
+/* BILL */
 
 .bill{
   background:#f8fbff;
@@ -223,7 +257,19 @@ button:hover{
   font-weight:bold;
 }
 
+/* FOOTER */
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#687085;
+  font-size:14px;
+}
+
+/* MOBILE */
+
 @media(max-width:700px){
+
   .grid{
     grid-template-columns:1fr;
   }
@@ -249,314 +295,803 @@ button:hover{
   h1{
     font-size:21px;
   }
+
+  .card{
+    padding:15px;
+  }
+
+  .btn-row button{
+    width:100%;
+  }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <header>
+
   <div class="header">
+
     <div class="logo">
-      <div class="logo-icon">⚡</div>
-      <div>
-        <h1>LAVANYA SINGH</h1>
-        <div class="subtitle">Electricity Board</div>
+
+      <div class="logo-icon">
+        ⚡
       </div>
+
+      <div>
+
+        <h1>
+          LAVANYA SINGH
+        </h1>
+
+        <div class="subtitle">
+          Electricity Board
+        </div>
+
+      </div>
+
     </div>
+
   </div>
+
 </header>
+
 
 <div class="container">
 
-  <!-- CONSUMER PROFILE -->
-  <div class="card">
-    <h2>👤 Consumer Profile</h2>
-    <p>Create or select a meter holder.</p>
 
-    <div class="grid">
+<!-- ========================= -->
+<!-- CONSUMER PROFILE -->
+<!-- ========================= -->
 
-      <div class="field">
-        <label>Consumer Name</label>
-        <input id="name" placeholder="Enter full name">
-      </div>
+<div class="card">
 
-      <div class="field">
-        <label>Consumer Number</label>
-        <input id="consumerNo" placeholder="Enter consumer number">
-      </div>
+  <h2>
+    👤 Consumer Profile
+  </h2>
 
-      <div class="field">
-        <label>Meter Number</label>
-        <input id="meterNo" placeholder="Enter meter number">
-      </div>
+  <p>
+    Create or select a meter holder.
+  </p>
 
-      <div class="field">
-        <label>Mobile Number</label>
-        <input id="mobile" placeholder="Enter mobile number">
-      </div>
+
+  <div class="grid">
+
+    <div class="field">
+
+      <label>
+        Consumer Name
+      </label>
+
+      <input
+        id="name"
+        placeholder="Enter full name">
 
     </div>
 
-    <div class="field" style="margin-top:15px">
-      <label>Address</label>
-      <textarea id="address" placeholder="Enter complete address"></textarea>
+
+    <div class="field">
+
+      <label>
+        Consumer Number
+      </label>
+
+      <input
+        id="consumerNo"
+        placeholder="Enter consumer number">
+
     </div>
 
-    <div class="btn-row">
-      <button onclick="saveConsumer()">💾 Save Consumer</button>
-      <button class="secondary" onclick="clearForm()">Clear</button>
+
+    <div class="field">
+
+      <label>
+        Meter Number
+      </label>
+
+      <input
+        id="meterNo"
+        placeholder="Enter meter number">
+
     </div>
+
+
+    <div class="field">
+
+      <label>
+        Mobile Number
+      </label>
+
+      <input
+        id="mobile"
+        type="tel"
+        placeholder="Enter mobile number">
+
+    </div>
+
   </div>
 
 
-  <!-- CONSUMERS -->
-  <div class="card">
-    <h2>📋 Saved Consumers</h2>
-    <div id="consumerList" class="consumer-list"></div>
+  <div
+    class="field"
+    style="margin-top:15px">
+
+    <label>
+      Address
+    </label>
+
+    <textarea
+      id="address"
+      placeholder="Enter complete address"></textarea>
+
   </div>
 
 
-  <!-- READING -->
-  <div class="card">
-    <h2>⚡ Monthly Meter Reading</h2>
+  <div class="btn-row">
 
-    <div class="grid">
+    <button onclick="saveConsumer()">
+      💾 Save Consumer
+    </button>
 
-      <div class="field">
-        <label>Month</label>
-        <input type="month" id="month">
-      </div>
+    <button
+      class="secondary"
+      onclick="clearForm()">
 
-      <div class="field">
-        <label>Previous Reading</label>
-        <input type="number" id="previous" min="0" placeholder="Previous meter reading">
-      </div>
+      Clear
 
-      <div class="field">
-        <label>Current Reading</label>
-        <input type="number" id="current" min="0" placeholder="Current meter reading">
-      </div>
+    </button>
 
-      <div class="field">
-        <label>Rate per Unit</label>
-        <input type="number" id="rate" value="5" min="0">
-      </div>
-
-    </div>
-
-    <div class="btn-row">
-      <button onclick="saveReading()">➕ Save Monthly Reading</button>
-      <button class="secondary" onclick="calculateBill()">🧮 Calculate</button>
-    </div>
-  </div>
-
-
-  <!-- HISTORY -->
-  <div class="card">
-    <h2>📊 Monthly History</h2>
-    <div id="history"></div>
-  </div>
-
-
-  <!-- BILL -->
-  <div class="card">
-    <h2>🧾 Bill Preview</h2>
-    <div id="bill" class="bill">
-      <div class="empty">Select a consumer and calculate a bill.</div>
-    </div>
-
-    <div class="btn-row">
-      <button class="green" onclick="shareBill()">📤 Share Bill</button>
-      <button class="secondary" onclick="window.print()">🖨️ Print Bill</button>
-    </div>
   </div>
 
 </div>
 
 
+<!-- ========================= -->
+<!-- SAVED CONSUMERS -->
+<!-- ========================= -->
+
+<div class="card">
+
+  <h2>
+    📋 Saved Consumers
+  </h2>
+
+  <div
+    id="consumerList"
+    class="consumer-list">
+
+  </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- MONTHLY READING -->
+<!-- ========================= -->
+
+<div class="card">
+
+  <h2>
+    ⚡ Monthly Meter Reading
+  </h2>
+
+
+  <div class="grid">
+
+
+    <div class="field">
+
+      <label>
+        Month
+      </label>
+
+      <input
+        type="month"
+        id="month">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Previous Reading
+      </label>
+
+      <input
+        type="number"
+        id="previous"
+        min="0"
+        placeholder="Previous meter reading">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Current Reading
+      </label>
+
+      <input
+        type="number"
+        id="current"
+        min="0"
+        placeholder="Current meter reading">
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Rate per Unit
+      </label>
+
+      <input
+        type="number"
+        id="rate"
+        value="5"
+        min="0">
+
+    </div>
+
+  </div>
+
+
+  <div class="btn-row">
+
+    <button onclick="saveReading()">
+      ➕ Save Monthly Reading
+    </button>
+
+    <button
+      class="secondary"
+      onclick="calculateBill()">
+
+      🧮 Calculate
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- MONTHLY HISTORY -->
+<!-- ========================= -->
+
+<div class="card">
+
+  <h2>
+    📊 Monthly History
+  </h2>
+
+  <div id="history">
+
+  </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- BILL -->
+<!-- ========================= -->
+
+<div class="card">
+
+  <h2>
+    🧾 Bill Preview
+  </h2>
+
+
+  <div
+    id="bill"
+    class="bill">
+
+    <div class="empty">
+      Select a consumer and calculate a bill.
+    </div>
+
+  </div>
+
+
+  <div class="btn-row">
+
+    <button
+      class="green"
+      onclick="shareBill()">
+
+      📤 Share Bill
+
+    </button>
+
+
+    <button
+      class="secondary"
+      onclick="window.print()">
+
+      🖨️ Print Bill
+
+    </button>
+
+  </div>
+
+</div>
+
+
+</div>
+
+
+<footer>
+
+  © 2026 Lavanya Singh Electricity Board
+
+</footer>
+
+
+
+<!-- ========================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================= -->
+
 <script>
 
-const STORAGE_KEY = "lavanya_electricity_board_data";
 
-let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-  consumers: [],
-  selected: null
-};
+/* STORAGE */
 
+const STORAGE_KEY =
+  "lavanya_electricity_board_data";
+
+
+let data =
+  JSON.parse(
+    localStorage.getItem(STORAGE_KEY)
+  ) || {
+
+    consumers: [],
+
+    selected: null
+
+  };
+
+
+/* SAVE DATA */
 
 function saveData(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+
 }
 
+
+/* SELECTED CONSUMER */
 
 function getSelectedConsumer(){
-  return data.consumers.find(c => c.id === data.selected);
+
+  return data.consumers.find(
+    c => c.id === data.selected
+  );
+
 }
 
+
+/* ========================= */
+/* SAVE CONSUMER */
+/* ========================= */
 
 function saveConsumer(){
 
-  const name = document.getElementById("name").value.trim();
-  const consumerNo = document.getElementById("consumerNo").value.trim();
-  const meterNo = document.getElementById("meterNo").value.trim();
-  const mobile = document.getElementById("mobile").value.trim();
-  const address = document.getElementById("address").value.trim();
+  const name =
+    document
+      .getElementById("name")
+      .value
+      .trim();
+
+
+  const consumerNo =
+    document
+      .getElementById("consumerNo")
+      .value
+      .trim();
+
+
+  const meterNo =
+    document
+      .getElementById("meterNo")
+      .value
+      .trim();
+
+
+  const mobile =
+    document
+      .getElementById("mobile")
+      .value
+      .trim();
+
+
+  const address =
+    document
+      .getElementById("address")
+      .value
+      .trim();
+
 
   if(!name){
-    alert("Please enter consumer name.");
+
+    alert(
+      "Please enter consumer name."
+    );
+
     return;
+
   }
+
 
   if(!meterNo){
-    alert("Please enter meter number.");
+
+    alert(
+      "Please enter meter number."
+    );
+
     return;
+
   }
 
-  const existing = data.consumers.find(
-    c => c.meterNo === meterNo
-  );
+
+  const existing =
+    data.consumers.find(
+      c => c.meterNo === meterNo
+    );
+
+
+  /* UPDATE EXISTING */
 
   if(existing){
 
-    existing.name = name;
-    existing.consumerNo = consumerNo;
-    existing.mobile = mobile;
-    existing.address = address;
+    existing.name =
+      name;
 
-    data.selected = existing.id;
+    existing.consumerNo =
+      consumerNo;
 
-  }else{
+    existing.mobile =
+      mobile;
 
-    const consumer = {
-      id: Date.now().toString(),
-      name,
-      consumerNo,
-      meterNo,
-      mobile,
-      address,
-      readings:[]
-    };
+    existing.address =
+      address;
 
-    data.consumers.push(consumer);
-    data.selected = consumer.id;
+    data.selected =
+      existing.id;
+
   }
 
+
+  /* CREATE NEW */
+
+  else{
+
+    const consumer = {
+
+      id:
+        Date.now().toString(),
+
+      name:
+        name,
+
+      consumerNo:
+        consumerNo,
+
+      meterNo:
+        meterNo,
+
+      mobile:
+        mobile,
+
+      address:
+        address,
+
+      readings:
+        []
+
+    };
+
+
+    data.consumers.push(
+      consumer
+    );
+
+
+    data.selected =
+      consumer.id;
+
+  }
+
+
   saveData();
+
   renderConsumers();
+
   renderHistory();
 
-  alert("Consumer saved successfully. ✅");
+  alert(
+    "Consumer saved successfully. ✅"
+  );
+
 }
 
+
+/* ========================= */
+/* SELECT CONSUMER */
+/* ========================= */
 
 function selectConsumer(id){
 
-  data.selected = id;
+  data.selected =
+    id;
 
-  const c = getSelectedConsumer();
 
-  if(!c) return;
+  const c =
+    getSelectedConsumer();
 
-  document.getElementById("name").value = c.name || "";
-  document.getElementById("consumerNo").value = c.consumerNo || "";
-  document.getElementById("meterNo").value = c.meterNo || "";
-  document.getElementById("mobile").value = c.mobile || "";
-  document.getElementById("address").value = c.address || "";
+
+  if(!c){
+    return;
+  }
+
+
+  document.getElementById("name").value =
+    c.name || "";
+
+
+  document.getElementById("consumerNo").value =
+    c.consumerNo || "";
+
+
+  document.getElementById("meterNo").value =
+    c.meterNo || "";
+
+
+  document.getElementById("mobile").value =
+    c.mobile || "";
+
+
+  document.getElementById("address").value =
+    c.address || "";
+
 
   saveData();
 
   renderConsumers();
+
   renderHistory();
+
 }
 
+
+/* ========================= */
+/* DELETE CONSUMER */
+/* ========================= */
 
 function deleteConsumer(id){
 
-  if(!confirm("Delete this consumer and all monthly records?")){
+  if(
+    !confirm(
+      "Delete this consumer and all monthly records?"
+    )
+  ){
+
     return;
+
   }
 
-  data.consumers = data.consumers.filter(c => c.id !== id);
+
+  data.consumers =
+    data.consumers.filter(
+      c => c.id !== id
+    );
+
 
   if(data.selected === id){
-    data.selected = null;
+
+    data.selected =
+      null;
+
     clearForm();
+
   }
+
 
   saveData();
 
   renderConsumers();
+
   renderHistory();
+
 
   document.getElementById("bill").innerHTML =
     '<div class="empty">Select a consumer and calculate a bill.</div>';
+
 }
 
+
+/* ========================= */
+/* CLEAR FORM */
+/* ========================= */
 
 function clearForm(){
 
-  document.getElementById("name").value = "";
-  document.getElementById("consumerNo").value = "";
-  document.getElementById("meterNo").value = "";
-  document.getElementById("mobile").value = "";
-  document.getElementById("address").value = "";
+  document.getElementById("name").value =
+    "";
+
+  document.getElementById("consumerNo").value =
+    "";
+
+  document.getElementById("meterNo").value =
+    "";
+
+  document.getElementById("mobile").value =
+    "";
+
+  document.getElementById("address").value =
+    "";
+
 }
 
 
+/* ========================= */
+/* SAVE MONTHLY READING */
+/* ========================= */
+
 function saveReading(){
 
-  const consumer = getSelectedConsumer();
+  const consumer =
+    getSelectedConsumer();
+
 
   if(!consumer){
-    alert("First select or save a consumer.");
+
+    alert(
+      "First select or save a consumer."
+    );
+
     return;
+
   }
 
-  const month = document.getElementById("month").value;
-  const previous = Number(document.getElementById("previous").value);
-  const current = Number(document.getElementById("current").value);
-  const rate = Number(document.getElementById("rate").value);
+
+  const month =
+    document
+      .getElementById("month")
+      .value;
+
+
+  const previous =
+    Number(
+      document
+        .getElementById("previous")
+        .value
+    );
+
+
+  const current =
+    Number(
+      document
+        .getElementById("current")
+        .value
+    );
+
+
+  const rate =
+    Number(
+      document
+        .getElementById("rate")
+        .value
+    );
+
 
   if(!month){
-    alert("Please select month.");
+
+    alert(
+      "Please select month."
+    );
+
     return;
+
   }
+
 
   if(current < previous){
-    alert("Current reading cannot be less than previous reading.");
+
+    alert(
+      "Current reading cannot be less than previous reading."
+    );
+
     return;
+
   }
 
-  const units = current - previous;
-  const amount = units * rate;
 
-  const existing = consumer.readings.find(r => r.month === month);
+  const units =
+    current - previous;
+
+
+  const amount =
+    units * rate;
+
+
+  const existing =
+    consumer.readings.find(
+      r => r.month === month
+    );
+
+
+  /* UPDATE MONTH */
 
   if(existing){
 
-    existing.previous = previous;
-    existing.current = current;
-    existing.units = units;
-    existing.rate = rate;
-    existing.amount = amount;
+    existing.previous =
+      previous;
 
-  }else{
+    existing.current =
+      current;
+
+    existing.units =
+      units;
+
+    existing.rate =
+      rate;
+
+    existing.amount =
+      amount;
+
+  }
+
+
+  /* NEW MONTH */
+
+  else{
 
     consumer.readings.push({
-      month,
-      previous,
-      current,
-      units,
-      rate,
-      amount
+
+      month:
+        month,
+
+      previous:
+        previous,
+
+      current:
+        current,
+
+      units:
+        units,
+
+      rate:
+        rate,
+
+      amount:
+        amount
+
     });
 
   }
 
-  consumer.readings.sort((a,b) =>
-    a.month.localeCompare(b.month)
+
+  consumer.readings.sort(
+    (a,b) =>
+      a.month.localeCompare(b.month)
   );
+
 
   saveData();
 
@@ -564,37 +1099,94 @@ function saveReading(){
 
   createBill(month);
 
-  alert("Monthly reading saved. ✅");
+
+  alert(
+    "Monthly reading saved. ✅"
+  );
+
 }
 
 
+/* ========================= */
+/* CALCULATE BILL */
+/* ========================= */
+
 function calculateBill(){
 
-  const consumer = getSelectedConsumer();
+  const consumer =
+    getSelectedConsumer();
+
 
   if(!consumer){
-    alert("First select a consumer.");
+
+    alert(
+      "First select a consumer."
+    );
+
     return;
+
   }
 
-  const month = document.getElementById("month").value;
+
+  const month =
+    document
+      .getElementById("month")
+      .value;
+
 
   if(!month){
-    alert("Select a month.");
+
+    alert(
+      "Select a month."
+    );
+
     return;
+
   }
 
-  const previous = Number(document.getElementById("previous").value);
-  const current = Number(document.getElementById("current").value);
-  const rate = Number(document.getElementById("rate").value);
+
+  const previous =
+    Number(
+      document
+        .getElementById("previous")
+        .value
+    );
+
+
+  const current =
+    Number(
+      document
+        .getElementById("current")
+        .value
+    );
+
+
+  const rate =
+    Number(
+      document
+        .getElementById("rate")
+        .value
+    );
+
 
   if(current < previous){
-    alert("Current reading cannot be less than previous reading.");
+
+    alert(
+      "Current reading cannot be less than previous reading."
+    );
+
     return;
+
   }
 
-  const units = current - previous;
-  const amount = units * rate;
+
+  const units =
+    current - previous;
+
+
+  const amount =
+    units * rate;
+
 
   showBill(
     consumer,
@@ -605,32 +1197,60 @@ function calculateBill(){
     rate,
     amount
   );
+
 }
 
+
+/* ========================= */
+/* CREATE BILL FROM HISTORY */
+/* ========================= */
 
 function createBill(month){
 
-  const consumer = getSelectedConsumer();
+  const consumer =
+    getSelectedConsumer();
 
-  if(!consumer) return;
 
-  const r = consumer.readings.find(
-    x => x.month === month
-  );
+  if(!consumer){
+    return;
+  }
 
-  if(!r) return;
+
+  const r =
+    consumer.readings.find(
+      x => x.month === month
+    );
+
+
+  if(!r){
+    return;
+  }
+
 
   showBill(
+
     consumer,
+
     r.month,
+
     r.previous,
+
     r.current,
+
     r.units,
+
     r.rate,
+
     r.amount
+
   );
+
 }
 
+
+/* ========================= */
+/* SHOW BILL */
+/* ========================= */
 
 function showBill(
   consumer,
@@ -643,7 +1263,9 @@ function showBill(
 ){
 
   const formattedMonth =
-    new Date(month + "-01").toLocaleDateString(
+    new Date(
+      month + "-01"
+    ).toLocaleDateString(
       "en-IN",
       {
         month:"long",
@@ -651,120 +1273,214 @@ function showBill(
       }
     );
 
+
   document.getElementById("bill").innerHTML = `
 
     <div class="bill-head">
 
       <div>
-        <h2>⚡ Electricity Bill</h2>
-        <strong>Lavanya Singh Electricity Board</strong>
+
+        <h2>
+          ⚡ Electricity Bill
+        </h2>
+
+        <strong>
+          Lavanya Singh Electricity Board
+        </strong>
+
       </div>
 
+
       <div>
-        <span class="badge">${formattedMonth}</span>
+
+        <span class="badge">
+          ${formattedMonth}
+        </span>
+
       </div>
 
     </div>
 
-    <p><strong>Consumer:</strong> ${escapeHTML(consumer.name)}</p>
 
-    <p><strong>Consumer No:</strong>
+    <p>
+      <strong>Consumer:</strong>
+      ${escapeHTML(consumer.name)}
+    </p>
+
+
+    <p>
+      <strong>Consumer No:</strong>
       ${escapeHTML(consumer.consumerNo || "-")}
     </p>
 
-    <p><strong>Meter No:</strong>
+
+    <p>
+      <strong>Meter No:</strong>
       ${escapeHTML(consumer.meterNo)}
     </p>
 
-    <p><strong>Address:</strong>
+
+    <p>
+      <strong>Mobile:</strong>
+      ${escapeHTML(consumer.mobile || "-")}
+    </p>
+
+
+    <p>
+      <strong>Address:</strong>
       ${escapeHTML(consumer.address || "-")}
     </p>
 
+
     <hr>
+
 
     <p>
       Previous Reading:
-      <strong>${previous}</strong>
+      <strong>
+        ${previous}
+      </strong>
     </p>
+
 
     <p>
       Current Reading:
-      <strong>${current}</strong>
+      <strong>
+        ${current}
+      </strong>
     </p>
+
 
     <p>
       Units Consumed:
-      <strong>${units}</strong>
+      <strong>
+        ${units}
+      </strong>
     </p>
+
 
     <p>
       Rate:
-      <strong>₹${rate} / unit</strong>
+      <strong>
+        ₹${rate} / unit
+      </strong>
     </p>
 
+
     <hr>
+
 
     <div class="amount">
       ₹${amount.toFixed(2)}
     </div>
 
-    <p>Amount Payable</p>
+
+    <p>
+      Amount Payable
+    </p>
 
   `;
+
 }
 
 
+/* ========================= */
+/* RENDER CONSUMERS */
+/* ========================= */
+
 function renderConsumers(){
 
-  const box = document.getElementById("consumerList");
+  const box =
+    document.getElementById(
+      "consumerList"
+    );
 
-  if(data.consumers.length === 0){
+
+  if(
+    data.consumers.length === 0
+  ){
 
     box.innerHTML =
       '<div class="empty">No consumers saved yet.</div>';
 
     return;
+
   }
 
-  box.innerHTML = data.consumers.map(c => `
 
-    <div class="consumer">
+  box.innerHTML =
+    data.consumers.map(
+      c => `
 
-      <div class="consumer-info">
+      <div class="consumer">
 
-        <strong>${escapeHTML(c.name)}</strong>
+        <div class="consumer-info">
 
-        <small>
-          Meter: ${escapeHTML(c.meterNo)}
-          ${data.selected === c.id ? " • Selected" : ""}
-        </small>
+          <strong>
+            ${escapeHTML(c.name)}
+          </strong>
+
+          <small>
+
+            Meter:
+            ${escapeHTML(c.meterNo)}
+
+            ${
+              data.selected === c.id
+              ? " • Selected"
+              : ""
+            }
+
+          </small>
+
+        </div>
+
+
+        <div
+          class="btn-row"
+          style="margin:0">
+
+          <button
+            onclick="selectConsumer('${c.id}')">
+
+            Select
+
+          </button>
+
+
+          <button
+            class="danger"
+            onclick="deleteConsumer('${c.id}')">
+
+            Delete
+
+          </button>
+
+        </div>
 
       </div>
 
-      <div class="btn-row" style="margin:0">
+    `
+    ).join("");
 
-        <button onclick="selectConsumer('${c.id}')">
-          Select
-        </button>
-
-        <button class="danger"
-          onclick="deleteConsumer('${c.id}')">
-          Delete
-        </button>
-
-      </div>
-
-    </div>
-
-  `).join("");
 }
 
 
+/* ========================= */
+/* RENDER HISTORY */
+/* ========================= */
+
 function renderHistory(){
 
-  const box = document.getElementById("history");
+  const box =
+    document.getElementById(
+      "history"
+    );
 
-  const consumer = getSelectedConsumer();
+
+  const consumer =
+    getSelectedConsumer();
+
 
   if(!consumer){
 
@@ -772,149 +1488,205 @@ function renderHistory(){
       '<div class="empty">Select a consumer to see history.</div>';
 
     return;
+
   }
 
-  if(consumer.readings.length === 0){
+
+  if(
+    consumer.readings.length === 0
+  ){
 
     box.innerHTML =
       '<div class="empty">No monthly readings saved.</div>';
 
     return;
+
   }
+
 
   let html = `
 
     <p>
-      <strong>${escapeHTML(consumer.name)}</strong>
+
+      <strong>
+        ${escapeHTML(consumer.name)}
+      </strong>
+
       —
-      Meter ${escapeHTML(consumer.meterNo)}
+
+      Meter
+      ${escapeHTML(consumer.meterNo)}
+
     </p>
+
 
     <div style="overflow-x:auto">
 
-    <table class="reading-table">
+      <table class="reading-table">
 
-      <thead>
-        <tr>
-          <th>Month</th>
-          <th>Previous</th>
-          <th>Current</th>
-          <th>Units</th>
-          <th>Rate</th>
-          <th>Bill</th>
-        </tr>
-      </thead>
+        <thead>
 
-      <tbody>
+          <tr>
+
+            <th>
+              Month
+            </th>
+
+            <th>
+              Previous
+            </th>
+
+            <th>
+              Current
+            </th>
+
+            <th>
+              Units
+            </th>
+
+            <th>
+              Rate
+            </th>
+
+            <th>
+              Bill
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
   `;
 
-  consumer.readings.forEach(r => {
 
-    const monthName =
-      new Date(r.month + "-01").toLocaleDateString(
-        "en-IN",
-        {
-          month:"short",
-          year:"numeric"
-        }
-      );
+  consumer.readings.forEach(
+    r => {
 
-    html += `
+      const monthName =
+        new Date(
+          r.month + "-01"
+        ).toLocaleDateString(
+          "en-IN",
+          {
+            month:"short",
+            year:"numeric"
+          }
+        );
 
-      <tr>
 
-        <td>${monthName}</td>
+      html += `
 
-        <td>${r.previous}</td>
+        <tr>
 
-        <td>${r.current}</td>
+          <td>
+            ${monthName}
+          </td>
 
-        <td>${r.units}</td>
+          <td>
+            ${r.previous}
+          </td>
 
-        <td>₹${r.rate}</td>
+          <td>
+            ${r.current}
+          </td>
 
-        <td>
-          <strong>₹${r.amount.toFixed(2)}</strong>
-        </td>
+          <td>
+            ${r.units}
+          </td>
 
-      </tr>
+          <td>
+            ₹${r.rate}
+          </td>
 
-    `;
+          <td>
+            <strong>
+              ₹${r.amount.toFixed(2)}
+            </strong>
+          </td>
 
-  });
+        </tr>
+
+      `;
+
+    }
+  );
+
 
   html += `
-      </tbody>
-    </table>
+
+        </tbody>
+
+      </table>
 
     </div>
+
   `;
 
-  box.innerHTML = html;
+
+  box.innerHTML =
+    html;
+
 }
 
 
+/* ========================= */
+/* SHARE BILL */
+/* ========================= */
+
 async function shareBill(){
 
-  const consumer = getSelectedConsumer();
+  const consumer =
+    getSelectedConsumer();
+
 
   if(!consumer){
 
-    alert("Select a consumer first.");
+    alert(
+      "Select a consumer first."
+    );
+
     return;
+
   }
 
+
   const text =
-    document.getElementById("bill").innerText;
+    document
+      .getElementById("bill")
+      .innerText;
+
 
   if(navigator.share){
 
     try{
 
       await navigator.share({
-        title:"Electricity Bill",
-        text:text
+
+        title:
+          "Electricity Bill",
+
+        text:
+          text
+
       });
-
-    }catch(e){}
-
-  }else{
-
-    try{
-
-      await navigator.clipboard.writeText(text);
-
-      alert("Bill copied. You can paste it anywhere.");
-
-    }catch(e){
-
-      alert("Sharing is not supported on this browser.");
 
     }
 
+    catch(e){}
+
   }
-}
 
 
-function escapeHTML(value){
+  else{
 
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    try{
 
-}
+      await navigator.clipboard.writeText(
+        text
+      );
 
-
-document.getElementById("month").value =
-  new Date().toISOString().slice(0,7);
-
-renderConsumers();
-renderHistory();
-
-</script>
-
-</body>
-</html>
+      alert(
+        "Bill copied. You can paste it anywhere.
