@@ -1,0 +1,115 @@
+"""Streamlit interface for discovering publicly listed business contact details."""
+
+from __future__ import annotations
+
+import csv
+import io
+import os
+import re
+from datetime import datetime
+from pathlib import Path
+
+import streamlit as st
+
+from company_collector import CSV_FIELDNAMES, CompanyCollector, record_to_row
+
+
+def records_to_csv(rows: list[dict[str, str]]) -> bytes:
+    buffer = io.StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=CSV_FIELDNAMES)
+    writer.writeheader()
+    writer.writerows(rows)
+    return buffer.getvalue().encode("utf-8-sig")
+
+
+def save_csv(csv_content: bytes, query: str, output_directory: Path | None = None) -> Path:
+    destination = output_directory or Path(__file__).resolve().parent / "exports"
+    destination.mkdir(parents=True, exist_ok=True)
+    filename_base = re.sub(r"[^a-z0-9]+", "_", query.lower()).strip("_") or "businesses"
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    output_path = destination / f"{filename_base[:80]}_{timestamp}.csv"
+    output_path.write_bytes(csv_content)
+    return output_path
+
+
+def main() -> None:
+    st.set_page_config(page_title="Business Finder", layout="wide")
+    st.title("Google Business Finder")
+    st.caption("Find businesses with Google Places, then enrich results from official company websites.")
+    st.info(
+        "Use results responsibly: collect only public business information, follow applicable website "
+        "terms and privacy laws, and do not use the data for spam or unsolicited outreach."
+    )
+
+    with st.form("search-form"):
+        left, middle, right = st.columns(3)
+        location = left.text_input("City, place, or country", value="India", placeholder="e.g. Bengaluru, India")
+        sector = middle.text_input("Business category", value="technology", placeholder="e.g. software, hotels")
+        count = right.number_input("Maximum businesses", min_value=1, max_value=60, value=20, step=1)
+        company_type = st.selectbox("Business type", options=("both", "private", "government"), index=0)
+        fast_mode = st.toggle(
+            "Fast mode",
+            value=True,
+            help="Checks the homepage and the best contact page using one focused search query.",
+        )
+        with st.expander("Google Places API settings", expanded=True):
+            st.caption("Enable Places API (New) and billing in your Google Maps Platform project, then add its API key.")
+            api_key = st.text_input("Google Maps Platform API key", value=os.getenv("GOOGLE_MAPS_API_KEY", ""), type="password")
+        submitted = st.form_submit_button("Find businesses", type="primary")
+
+    if not submitted:
+        return
+    if not location.strip():
+        st.error("Enter a city or place to begin.")
+        return
+    if not api_key:
+        st.error("Enter a Google Maps Platform API key to run an official Google Places search.")
+        return
+
+    company_type_prefix = "" if company_type == "both" else f"{company_type} "
+    query = f"{company_type_prefix}{sector.strip() or 'business'} companies in {location.strip()}"
+    request_delay = 0.2 if fast_mode else 0.75
+    max_pages = 2 if fast_mode else 4
+    collector = CompanyCollector(
+        places_api_key=api_key,
+        request_delay=request_delay,
+        respect_robots=True,
+        max_pages_per_company=max_pages,
+    )
+
+    with st.spinner("Searching Google Places, then checking public official-site contact pages..."):
+        try:
+            records = collector.collect_google_places(
+                query,
+                count=int(count),
+                location=location.strip(),
+                max_workers=4 if fast_mode else 2,
+            )
+        except Exception as error:
+            st.error(f"Google Places search failed: {error}")
+            return
+
+    rows = [record_to_row(record) for record in records]
+    csv_content = records_to_csv(rows)
+    try:
+        output_path = save_csv(csv_content, query)
+    except OSError as error:
+        st.error(f"Could not save the CSV file: {error}")
+        return
+
+    if not rows:
+        st.warning(f"Google Places returned no businesses. An empty CSV was saved to {output_path}.")
+        return
+
+    st.success(f"Found {len(rows)} businesses. CSV saved to {output_path}")
+    st.dataframe(rows, use_container_width=True, hide_index=True)
+    st.download_button(
+        "Download CSV",
+        data=csv_content,
+        file_name=output_path.name,
+        mime="text/csv",
+    )
+
+
+if __name__ == "__main__":
+    main()
