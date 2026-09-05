@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1602,4 +1604,1489 @@ document
   .getElementById(
     "month"
   )
-  .add
+  .addEventListener(
+    "change",
+    function(){
+
+      loadMonthlyRecord();
+
+    }
+  );
+
+
+/* ==================================================
+   LOAD MONTH RECORD
+================================================== */
+
+function loadMonthlyRecord(){
+
+  const consumer =
+    getSelectedConsumer();
+
+
+  if(!consumer){
+
+    return;
+
+  }
+
+
+  if(
+    !Array.isArray(
+      consumer.readings
+    )
+  ){
+
+    consumer.readings =
+      [];
+
+  }
+
+
+  const month =
+    document
+      .getElementById(
+        "month"
+      )
+      .value;
+
+
+  if(!month){
+
+    return;
+
+  }
+
+
+  const record =
+    consumer.readings.find(
+      function(reading){
+
+        return reading.month === month;
+
+      }
+    );
+
+
+  if(record){
+
+    document
+      .getElementById(
+        "previous"
+      )
+      .value =
+      record.previous;
+
+
+    document
+      .getElementById(
+        "current"
+      )
+      .value =
+      record.current;
+
+
+    document
+      .getElementById(
+        "rate"
+      )
+      .value =
+      record.rate;
+
+
+    monthlyPhoto =
+      record.photo || "";
+
+
+    showMonthlyPhoto(
+      monthlyPhoto
+    );
+
+  }
+  else{
+
+    /*
+      New month:
+      automatically use latest
+      saved current reading.
+    */
+
+    autoFillPreviousReading();
+
+
+    document
+      .getElementById(
+        "current"
+      )
+      .value =
+      "";
+
+
+    monthlyPhoto =
+      "";
+
+
+    showMonthlyPhoto(
+      ""
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   DELETE CONSUMER
+================================================== */
+
+function deleteConsumer(
+  id
+){
+
+  if(
+    !confirm(
+      "Delete this consumer and all monthly records?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  data.consumers =
+    data.consumers.filter(
+      function(consumer){
+
+        return consumer.id !== id;
+
+      }
+    );
+
+
+  if(
+    data.selected === id
+  ){
+
+    data.selected =
+      null;
+
+    clearConsumerForm();
+
+    removeMonthlyPhoto();
+
+  }
+
+
+  saveData();
+
+  renderConsumers();
+
+  renderHistory();
+
+  updateSelectedConsumerMessage();
+
+
+  document
+    .getElementById(
+      "bill"
+    )
+    .innerHTML =
+      '<div class="empty">Select a consumer and calculate a bill.</div>';
+
+}
+
+
+/* ==================================================
+   CLEAR CONSUMER FORM
+================================================== */
+
+function clearConsumerForm(){
+
+  document
+    .getElementById(
+      "name"
+    )
+    .value =
+    "";
+
+
+  document
+    .getElementById(
+      "consumerNo"
+    )
+    .value =
+    "";
+
+
+  document
+    .getElementById(
+      "meterNo"
+    )
+    .value =
+    "";
+
+
+  document
+    .getElementById(
+      "mobile"
+    )
+    .value =
+    "";
+
+
+  document
+    .getElementById(
+      "address"
+    )
+    .value =
+    "";
+
+}
+
+
+/* ==================================================
+   SAVE MONTHLY READING
+================================================== */
+
+function saveReading(){
+
+  const consumer =
+    getSelectedConsumer();
+
+
+  if(!consumer){
+
+    alert(
+      "First select or save a consumer."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !Array.isArray(
+      consumer.readings
+    )
+  ){
+
+    consumer.readings =
+      [];
+
+  }
+
+
+  const month =
+    document
+      .getElementById(
+        "month"
+      )
+      .value;
+
+
+  const previous =
+    Number(
+      document
+        .getElementById(
+          "previous"
+        )
+        .value
+    );
+
+
+  const current =
+    Number(
+      document
+        .getElementById(
+          "current"
+        )
+        .value
+    );
+
+
+  const rate =
+    Number(
+      document
+        .getElementById(
+          "rate"
+        )
+        .value
+    );
+
+
+  if(!month){
+
+    alert(
+      "Please select month."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !Number.isFinite(
+      previous
+    ) ||
+    !Number.isFinite(
+      current
+    ) ||
+    !Number.isFinite(
+      rate
+    )
+  ){
+
+    alert(
+      "Please enter valid readings and rate."
+    );
+
+    return;
+
+  }
+
+
+  if(current < previous){
+
+    alert(
+      "Current reading cannot be less than previous reading."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Photo is required for
+    each monthly reading.
+  */
+
+  if(!monthlyPhoto){
+
+    alert(
+      "Please upload/take this month's meter photo."
+    );
+
+    return;
+
+  }
+
+
+  const units =
+    current -
+    previous;
+
+
+  const amount =
+    units *
+    rate;
+
+
+  let existing =
+    consumer.readings.find(
+      function(reading){
+
+        return reading.month === month;
+
+      }
+    );
+
+
+  if(existing){
+
+    existing.previous =
+      previous;
+
+
+    existing.current =
+      current;
+
+
+    existing.units =
+      units;
+
+
+    existing.rate =
+      rate;
+
+
+    existing.amount =
+      amount;
+
+
+    /*
+      New photo replaces ONLY
+      this month's photo.
+    */
+
+    existing.photo =
+      monthlyPhoto;
+
+  }
+  else{
+
+    consumer.readings.push({
+
+      month:
+        month,
+
+      previous:
+        previous,
+
+      current:
+        current,
+
+      units:
+        units,
+
+      rate:
+        rate,
+
+      amount:
+        amount,
+
+      photo:
+        monthlyPhoto
+
+    });
+
+  }
+
+
+  consumer.readings.sort(
+    function(a,b){
+
+      return a.month.localeCompare(
+        b.month
+      );
+
+    }
+  );
+
+
+  if(
+    saveData()
+  ){
+
+    renderHistory();
+
+    createBill(
+      month
+    );
+
+
+    alert(
+      "Monthly reading and photo saved successfully. ✅"
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   CALCULATE BILL
+================================================== */
+
+function calculateBill(){
+
+  const consumer =
+    getSelectedConsumer();
+
+
+  if(!consumer){
+
+    alert(
+      "First select a consumer."
+    );
+
+    return;
+
+  }
+
+
+  const month =
+    document
+      .getElementById(
+        "month"
+      )
+      .value;
+
+
+  const previous =
+    Number(
+      document
+        .getElementById(
+          "previous"
+        )
+        .value
+    );
+
+
+  const current =
+    Number(
+      document
+        .getElementById(
+          "current"
+        )
+        .value
+    );
+
+
+  const rate =
+    Number(
+      document
+        .getElementById(
+          "rate"
+        )
+        .value
+    );
+
+
+  if(!month){
+
+    alert(
+      "Please select month."
+    );
+
+    return;
+
+  }
+
+
+  if(current < previous){
+
+    alert(
+      "Current reading cannot be less than previous reading."
+    );
+
+    return;
+
+  }
+
+
+  const units =
+    current -
+    previous;
+
+
+  const amount =
+    units *
+    rate;
+
+
+  showBill(
+    consumer,
+    month,
+    previous,
+    current,
+    units,
+    rate,
+    amount,
+    monthlyPhoto
+  );
+
+}
+
+
+/* ==================================================
+   CREATE BILL FROM SAVED RECORD
+================================================== */
+
+function createBill(
+  month
+){
+
+  const consumer =
+    getSelectedConsumer();
+
+
+  if(!consumer){
+    return;
+  }
+
+
+  const record =
+    consumer.readings.find(
+      function(reading){
+
+        return reading.month === month;
+
+      }
+    );
+
+
+  if(!record){
+    return;
+  }
+
+
+  showBill(
+
+    consumer,
+
+    record.month,
+
+    record.previous,
+
+    record.current,
+
+    record.units,
+
+    record.rate,
+
+    record.amount,
+
+    record.photo || ""
+
+  );
+
+}
+
+
+/* ==================================================
+   SHOW BILL
+================================================== */
+
+function showBill(
+  consumer,
+  month,
+  previous,
+  current,
+  units,
+  rate,
+  amount,
+  photo
+){
+
+  const formattedMonth =
+    getMonthName(
+      month
+    );
+
+
+  let photoHTML =
+    "";
+
+
+  if(photo){
+
+    photoHTML = `
+
+      <div style="margin-top:18px">
+
+        <strong>
+          📷 Meter Photo — ${escapeHTML(formattedMonth)}
+        </strong>
+
+        <br><br>
+
+        <img
+          class="bill-photo"
+          src="${photo}"
+          alt="Meter Photo">
+
+      </div>
+
+    `;
+
+  }
+
+
+  document
+    .getElementById(
+      "bill"
+    )
+    .innerHTML = `
+
+      <div class="bill-head">
+
+        <div>
+
+          <h2>
+            ⚡ Electricity Bill
+          </h2>
+
+          <strong>
+            Lavanya Singh Electricity Board
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span class="badge">
+
+            ${escapeHTML(
+              formattedMonth
+            )}
+
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <p>
+
+        <strong>
+          Consumer:
+        </strong>
+
+        ${escapeHTML(
+          consumer.name
+        )}
+
+      </p>
+
+
+      <p>
+
+        <strong>
+          Consumer No:
+        </strong>
+
+        ${escapeHTML(
+          consumer.consumerNo || "-"
+        )}
+
+      </p>
+
+
+      <p>
+
+        <strong>
+          Meter No:
+        </strong>
+
+        ${escapeHTML(
+          consumer.meterNo
+        )}
+
+      </p>
+
+
+      <p>
+
+        <strong>
+          Mobile:
+        </strong>
+
+        ${escapeHTML(
+          consumer.mobile || "-"
+        )}
+
+      </p>
+
+
+      <p>
+
+        <strong>
+          Address:
+        </strong>
+
+        ${escapeHTML(
+          consumer.address || "-"
+        )}
+
+      </p>
+
+
+      <hr>
+
+
+      <p>
+
+        Previous Reading:
+
+        <strong>
+          ${previous}
+        </strong>
+
+      </p>
+
+
+      <p>
+
+        Current Reading:
+
+        <strong>
+          ${current}
+        </strong>
+
+      </p>
+
+
+      <p>
+
+        Units Consumed:
+
+        <strong>
+          ${units}
+        </strong>
+
+      </p>
+
+
+      <p>
+
+        Rate:
+
+        <strong>
+          ₹${rate} / unit
+        </strong>
+
+      </p>
+
+
+      <hr>
+
+
+      <div class="amount">
+
+        ₹${Number(
+          amount
+        ).toFixed(2)}
+
+      </div>
+
+
+      <p>
+        Amount Payable
+      </p>
+
+
+      ${photoHTML}
+
+  `;
+
+}
+
+
+/* ==================================================
+   RENDER CONSUMERS
+================================================== */
+
+function renderConsumers(){
+
+  const box =
+    document.getElementById(
+      "consumerList"
+    );
+
+
+  if(
+    data.consumers.length === 0
+  ){
+
+    box.innerHTML =
+      '<div class="empty">No consumers saved yet.</div>';
+
+    return;
+
+  }
+
+
+  let html =
+    "";
+
+
+  data.consumers.forEach(
+    function(consumer){
+
+      html += `
+
+        <div class="consumer">
+
+          <div class="consumer-left">
+
+            <div
+              class="saved-photo"
+              style="
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:#eef4ff;
+                font-size:25px;
+              ">
+
+              ⚡
+
+            </div>
+
+
+            <div class="consumer-info">
+
+              <strong>
+
+                ${escapeHTML(
+                  consumer.name
+                )}
+
+              </strong>
+
+
+              <small>
+
+                Meter:
+                ${escapeHTML(
+                  consumer.meterNo
+                )}
+
+                ${
+                  data.selected ===
+                  consumer.id
+                  ? " • Selected"
+                  : ""
+                }
+
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="btn-row"
+            style="margin:0">
+
+
+            <button
+              type="button"
+              onclick="selectConsumer('${consumer.id}')">
+
+              Select
+
+            </button>
+
+
+            <button
+              type="button"
+              class="danger"
+              onclick="deleteConsumer('${consumer.id}')">
+
+              Delete
+
+            </button>
+
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+  );
+
+
+  box.innerHTML =
+    html;
+
+}
+
+
+/* ==================================================
+   RENDER HISTORY
+================================================== */
+
+function renderHistory(){
+
+  const box =
+    document.getElementById(
+      "history"
+    );
+
+
+  const consumer =
+    getSelectedConsumer();
+
+
+  if(!consumer){
+
+    box.innerHTML =
+      '<div class="empty">Select a consumer to see monthly history.</div>';
+
+    return;
+
+  }
+
+
+  if(
+    !Array.isArray(
+      consumer.readings
+    ) ||
+    consumer.readings.length === 0
+  ){
+
+    box.innerHTML =
+      '<div class="empty">No monthly readings saved yet.</div>';
+
+    return;
+
+  }
+
+
+  let html = `
+
+    <p>
+
+      <strong>
+        ${escapeHTML(
+          consumer.name
+        )}
+      </strong>
+
+      — Meter
+      ${escapeHTML(
+        consumer.meterNo
+      )}
+
+    </p>
+
+
+    <div style="overflow-x:auto">
+
+      <table class="reading-table">
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Month
+            </th>
+
+            <th>
+              Previous
+            </th>
+
+            <th>
+              Current
+            </th>
+
+            <th>
+              Units
+            </th>
+
+            <th>
+              Rate
+            </th>
+
+            <th>
+              Photo
+            </th>
+
+            <th>
+              Bill
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+  `;
+
+
+  const readings =
+    [...consumer.readings]
+      .sort(
+        function(a,b){
+
+          return b.month.localeCompare(
+            a.month
+          );
+
+        }
+      );
+
+
+  readings.forEach(
+    function(reading){
+
+      const monthName =
+        getMonthName(
+          reading.month
+        );
+
+
+      let photoCell =
+        "—";
+
+
+      if(reading.photo){
+
+        photoCell = `
+
+          <img
+            class="history-photo"
+            src="${reading.photo}"
+            alt="Meter Photo">
+
+        `;
+
+      }
+
+
+      html += `
+
+        <tr>
+
+          <td>
+
+            ${escapeHTML(
+              monthName
+            )}
+
+          </td>
+
+
+          <td>
+            ${reading.previous}
+          </td>
+
+
+          <td>
+            ${reading.current}
+          </td>
+
+
+          <td>
+            ${reading.units}
+          </td>
+
+
+          <td>
+            ₹${reading.rate}
+          </td>
+
+
+          <td>
+
+            ${photoCell}
+
+          </td>
+
+
+          <td>
+
+            <button
+              type="button"
+              onclick="showSavedBill('${reading.month}')">
+
+              🧾 View
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+  );
+
+
+  html += `
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+
+
+  box.innerHTML =
+    html;
+
+}
+
+
+/* ==================================================
+   SHOW SAVED BILL
+================================================== */
+
+function showSavedBill(
+  month
+){
+
+  createBill(
+    month
+  );
+
+}
+
+
+/* ==================================================
+   UPDATE SELECTED MESSAGE
+================================================== */
+
+function updateSelectedConsumerMessage(){
+
+  const box =
+    document.getElementById(
+      "selectedConsumerMessage"
+    );
+
+
+  const consumer =
+    getSelectedConsumer();
+
+
+  if(!consumer){
+
+    box.innerHTML =
+      "Select a consumer first.";
+
+    return;
+
+  }
+
+
+  box.innerHTML = `
+
+    <strong>
+      Selected Consumer:
+    </strong>
+
+    ${escapeHTML(
+      consumer.name
+    )}
+
+    &nbsp; | &nbsp;
+
+    Meter:
+    ${escapeHTML(
+      consumer.meterNo
+    )}
+
+  `;
+
+}
+
+
+/* ==================================================
+   SHARE BILL
+================================================== */
+
+async function shareBill(){
+
+  const bill =
+    document.getElementById(
+      "bill"
+    );
+
+
+  const text =
+    bill.innerText;
+
+
+  if(
+    !text ||
+    text.includes(
+      "Select a consumer"
+    )
+  ){
+
+    alert(
+      "First calculate or view a bill."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    navigator.share
+  ){
+
+    try{
+
+      await navigator.share({
+
+        title:
+          "Electricity Bill",
+
+        text:
+          text
+
+      });
+
+    }
+    catch(error){
+
+      console.log(
+        "Share cancelled."
+      );
+
+    }
+
+  }
+  else{
+
+    try{
+
+      await navigator.clipboard.writeText(
+        text
+      );
+
+
+      alert(
+        "Bill copied successfully. ✅"
+      );
+
+    }
+    catch(error){
+
+      alert(
+        "Sharing is not supported on this browser."
+      );
+
+    }
+
+  }
+
+}
+
+
+/* ==================================================
+   ESCAPE HTML
+================================================== */
+
+function escapeHTML(
+  value
+){
+
+  return String(
+    value
+  )
+
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+
+}
+
+
+/* ==================================================
+   DEFAULT MONTH
+================================================== */
+
+const monthInput =
+  document.getElementById(
+    "month"
+  );
+
+
+const today =
+  new Date();
+
+
+monthInput.value =
+  today.getFullYear() +
+  "-" +
+  String(
+    today.getMonth() + 1
+  ).padStart(
+    2,
+    "0"
+  );
+
+
+/* ==================================================
+   INITIALIZE
+================================================== */
+
+normalizeData();
+
+renderConsumers();
+
+renderHistory();
+
+updateSelectedConsumerMessage();
+
+autoFillPreviousReading();
+
+
+/* ==================================================
+   SERVICE WORKER
+================================================== */
+
+if(
+  "serviceWorker" in navigator
+){
+
+  window.addEventListener(
+    "load",
+    function(){
+
+      navigator.serviceWorker
+        .register(
+          "./sw.js"
+        )
+
+        .then(
+          function(){
+
+            console.log(
+              "Service Worker registered successfully."
+            );
+
+          }
+        )
+
+        .catch(
+          function(error){
+
+            console.error(
+              "Service Worker registration failed:",
+              error
+            );
+
+          }
+        );
+
+    }
+  );
+
+}
+
+</script>
+
+
+</body>
+</html>
