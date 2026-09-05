@@ -1,39 +1,73 @@
 const CACHE_NAME = "electricity-board-v2";
 
-const ASSETS = [
+const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./manifest.webmanifest"
 ];
 
-self.addEventListener("install", (event) => {
+
+/* INSTALL */
+
+self.addEventListener("install", event => {
+
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+
+    caches.open(CACHE_NAME)
+      .then(cache => {
+
+        return cache.addAll(
+          FILES_TO_CACHE
+        );
+
+      })
+
   );
 
   self.skipWaiting();
+
 });
 
-self.addEventListener("activate", (event) => {
+
+/* ACTIVATE */
+
+self.addEventListener("activate", event => {
+
   event.waitUntil(
-    caches.keys().then((cacheNames) =>
-      Promise.all(
-        cacheNames
-          .filter((cacheName) => cacheName !== CACHE_NAME)
-          .map((cacheName) => caches.delete(cacheName))
-      )
-    )
+
+    caches.keys()
+      .then(keys => {
+
+        return Promise.all(
+
+          keys
+            .filter(key => key !== CACHE_NAME)
+            .map(key => caches.delete(key))
+
+        );
+
+      })
+
   );
 
   self.clients.claim();
+
 });
 
-self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
+
+/* FETCH */
+
+self.addEventListener("fetch", event => {
 
   event.respondWith(
-    caches.match(event.request).then((cachedFile) => {
-      return cachedFile || fetch(event.request);
-    })
+
+    caches.match(event.request)
+      .then(response => {
+
+        return response || fetch(event.request);
+
+      })
+
   );
+
 });
