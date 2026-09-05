@@ -4,8 +4,7 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta name="theme-color" content="#1e66d0">
 
@@ -13,8 +12,7 @@
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-<meta name="apple-mobile-web-app-status-bar-style"
-      content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 
 <link rel="manifest" href="./manifest.webmanifest">
 
@@ -174,20 +172,20 @@ button:hover{
   background:#f8fbff;
 }
 
+.photo-placeholder{
+  color:#777;
+  padding:20px;
+}
+
 .photo-preview{
   width:100%;
-  max-width:280px;
-  max-height:280px;
+  max-width:300px;
+  max-height:300px;
   object-fit:cover;
   border-radius:12px;
   margin:10px auto;
   display:block;
   border:1px solid #dce3f1;
-}
-
-.photo-placeholder{
-  color:#777;
-  padding:20px;
 }
 
 .saved-photo{
@@ -198,7 +196,13 @@ button:hover{
   border:1px solid #ccd6e8;
 }
 
-/* CONSUMERS */
+.history-photo{
+  width:90px;
+  height:70px;
+  object-fit:cover;
+  border-radius:8px;
+  border:1px solid #ccd6e8;
+}
 
 .consumer-list{
   display:grid;
@@ -230,8 +234,6 @@ button:hover{
   color:#687085;
 }
 
-/* TABLE */
-
 .reading-table{
   width:100%;
   border-collapse:collapse;
@@ -243,13 +245,12 @@ button:hover{
   border:1px solid #dfe4ee;
   padding:10px;
   text-align:left;
+  vertical-align:middle;
 }
 
 .reading-table th{
   background:#f1f5fb;
 }
-
-/* BILL */
 
 .bill{
   background:#f8fbff;
@@ -274,8 +275,8 @@ button:hover{
 }
 
 .bill-photo{
-  width:180px;
-  max-height:180px;
+  width:220px;
+  max-height:220px;
   object-fit:cover;
   border-radius:12px;
   border:1px solid #ccd6e8;
@@ -295,6 +296,15 @@ button:hover{
   border-radius:20px;
   font-size:12px;
   font-weight:bold;
+}
+
+.note{
+  background:#f1f6ff;
+  border-left:4px solid #2667d7;
+  padding:12px;
+  border-radius:8px;
+  margin:12px 0;
+  font-size:14px;
 }
 
 footer{
@@ -319,8 +329,12 @@ footer{
     width:100%;
   }
 
-  .consumer button{
+  .consumer .btn-row{
     width:100%;
+  }
+
+  .consumer .btn-row button{
+    flex:1;
   }
 
   .reading-table{
@@ -344,24 +358,18 @@ footer{
     width:100%;
   }
 
-  .bill-photo{
-    width:100%;
-    max-width:250px;
-  }
-
 }
 
 @media print{
 
-  body{
-    background:white;
-  }
-
   header,
   footer,
-  .card:not(:has(#bill)),
-  .btn-row{
+  .no-print{
     display:none !important;
+  }
+
+  body{
+    background:white;
   }
 
   .container{
@@ -370,7 +378,6 @@ footer{
 
   .card{
     box-shadow:none;
-    margin:0;
   }
 
 }
@@ -380,6 +387,7 @@ footer{
 </head>
 
 <body>
+
 
 <header>
 
@@ -393,9 +401,7 @@ footer{
 
       <div>
 
-        <h1>
-          LAVANYA SINGH
-        </h1>
+        <h1>LAVANYA SINGH</h1>
 
         <div class="subtitle">
           Electricity Board
@@ -413,20 +419,22 @@ footer{
 <div class="container">
 
 
-<!-- CONSUMER PROFILE -->
+<!-- ==================================================
+     CONSUMER PROFILE
+================================================== -->
 
 <div class="card">
 
-  <h2>
-    👤 Consumer Profile
-  </h2>
+  <h2>👤 Consumer Profile</h2>
 
   <p>
-    Create or select a meter holder.
+    Consumer details are saved once.
+    Monthly reading and meter photo are saved separately.
   </p>
 
 
   <div class="grid">
+
 
     <div class="field">
 
@@ -436,6 +444,7 @@ footer{
 
       <input
         id="name"
+        type="text"
         placeholder="Enter full name">
 
     </div>
@@ -449,6 +458,7 @@ footer{
 
       <input
         id="consumerNo"
+        type="text"
         placeholder="Enter consumer number">
 
     </div>
@@ -462,6 +472,7 @@ footer{
 
       <input
         id="meterNo"
+        type="text"
         placeholder="Enter meter number">
 
     </div>
@@ -498,69 +509,21 @@ footer{
   </div>
 
 
-  <!-- METER PHOTO -->
-
-  <div
-    class="field"
-    style="margin-top:18px">
-
-    <label>
-      📷 Meter Photo
-    </label>
-
-
-    <div class="photo-box">
-
-      <div
-        id="photoPlaceholder"
-        class="photo-placeholder">
-
-        📸 Upload or take a photo of the meter
-
-      </div>
-
-
-      <img
-        id="photoPreview"
-        class="photo-preview"
-        style="display:none"
-        alt="Meter Photo">
-
-
-      <input
-        id="meterPhoto"
-        type="file"
-        accept="image/*"
-        capture="environment">
-
-
-      <div class="btn-row">
-
-        <button
-          type="button"
-          class="secondary"
-          onclick="removePhoto()">
-
-          🗑️ Remove Photo
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
   <div class="btn-row">
 
-    <button onclick="saveConsumer()">
+    <button
+      type="button"
+      onclick="saveConsumer()">
+
       💾 Save Consumer
+
     </button>
 
+
     <button
+      type="button"
       class="secondary"
-      onclick="clearForm()">
+      onclick="clearConsumerForm()">
 
       Clear
 
@@ -571,13 +534,13 @@ footer{
 </div>
 
 
-<!-- SAVED CONSUMERS -->
+<!-- ==================================================
+     SAVED CONSUMERS
+================================================== -->
 
 <div class="card">
 
-  <h2>
-    📋 Saved Consumers
-  </h2>
+  <h2>📋 Saved Consumers</h2>
 
   <div
     id="consumerList"
@@ -588,16 +551,26 @@ footer{
 </div>
 
 
-<!-- MONTHLY READING -->
+<!-- ==================================================
+     MONTHLY READING
+================================================== -->
 
 <div class="card">
 
-  <h2>
-    ⚡ Monthly Meter Reading
-  </h2>
+  <h2>⚡ Monthly Meter Reading</h2>
+
+
+  <div
+    id="selectedConsumerMessage"
+    class="note">
+
+    Select a consumer first.
+
+  </div>
 
 
   <div class="grid">
+
 
     <div class="field">
 
@@ -622,7 +595,7 @@ footer{
         type="number"
         id="previous"
         min="0"
-        placeholder="Previous meter reading">
+        placeholder="Previous reading">
 
     </div>
 
@@ -637,7 +610,7 @@ footer{
         type="number"
         id="current"
         min="0"
-        placeholder="Current meter reading">
+        placeholder="Current reading">
 
     </div>
 
@@ -651,8 +624,64 @@ footer{
       <input
         type="number"
         id="rate"
-        value="5"
-        min="0">
+        min="0"
+        value="5">
+
+    </div>
+
+  </div>
+
+
+  <!-- MONTHLY PHOTO -->
+
+  <div
+    class="field"
+    style="margin-top:18px">
+
+    <label>
+      📷 Meter Photo — This Month
+    </label>
+
+
+    <div class="photo-box">
+
+
+      <div
+        id="monthlyPhotoPlaceholder"
+        class="photo-placeholder">
+
+        📸 Take or upload this month's meter photo
+
+      </div>
+
+
+      <img
+        id="monthlyPhotoPreview"
+        class="photo-preview"
+        alt="Monthly Meter Photo"
+        style="display:none;">
+
+
+      <input
+        id="monthlyPhoto"
+        type="file"
+        accept="image/*"
+        capture="environment">
+
+
+      <div class="btn-row">
+
+
+        <button
+          type="button"
+          class="secondary"
+          onclick="removeMonthlyPhoto()">
+
+          🗑️ Remove Photo
+
+        </button>
+
+      </div>
 
     </div>
 
@@ -661,15 +690,22 @@ footer{
 
   <div class="btn-row">
 
-    <button onclick="saveReading()">
-      ➕ Save Monthly Reading
-    </button>
 
     <button
+      type="button"
+      onclick="saveReading()">
+
+      💾 Save Monthly Reading
+
+    </button>
+
+
+    <button
+      type="button"
       class="secondary"
       onclick="calculateBill()">
 
-      🧮 Calculate
+      🧮 Calculate Bill
 
     </button>
 
@@ -678,7 +714,9 @@ footer{
 </div>
 
 
-<!-- HISTORY -->
+<!-- ==================================================
+     MONTHLY HISTORY
+================================================== -->
 
 <div class="card">
 
@@ -693,7 +731,9 @@ footer{
 </div>
 
 
-<!-- BILL -->
+<!-- ==================================================
+     BILL
+================================================== -->
 
 <div class="card">
 
@@ -707,15 +747,19 @@ footer{
     class="bill">
 
     <div class="empty">
+
       Select a consumer and calculate a bill.
+
     </div>
 
   </div>
 
 
-  <div class="btn-row">
+  <div class="btn-row no-print">
+
 
     <button
+      type="button"
       class="green"
       onclick="shareBill()">
 
@@ -725,6 +769,7 @@ footer{
 
 
     <button
+      type="button"
       class="secondary"
       onclick="window.print()">
 
@@ -749,79 +794,228 @@ footer{
 
 <script>
 
-/* =========================
+
+/* ==================================================
    STORAGE
-========================= */
+================================================== */
 
 const STORAGE_KEY =
   "lavanya_electricity_board_data";
 
 
-let data =
-  JSON.parse(
-    localStorage.getItem(STORAGE_KEY)
-  ) || {
-
-    consumers: [],
-
-    selected: null
-
-  };
+let data = {
+  consumers: [],
+  selected: null
+};
 
 
-let currentPhoto = "";
+let monthlyPhoto =
+  "";
 
 
-/* =========================
-   SAVE DATA
-========================= */
+/* ==================================================
+   LOAD DATA
+================================================== */
 
-function saveData(){
+try{
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(data)
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if(saved){
+
+    const parsed =
+      JSON.parse(saved);
+
+
+    if(
+      parsed &&
+      Array.isArray(
+        parsed.consumers
+      )
+    ){
+
+      data =
+        parsed;
+
+    }
+
+  }
+
+}
+catch(error){
+
+  console.error(
+    "Data loading error:",
+    error
   );
 
 }
 
 
-/* =========================
+/* ==================================================
+   NORMALIZE OLD DATA
+================================================== */
+
+function normalizeData(){
+
+  if(
+    !Array.isArray(
+      data.consumers
+    )
+  ){
+
+    data.consumers =
+      [];
+
+  }
+
+
+  data.consumers.forEach(
+    function(consumer){
+
+      if(
+        !Array.isArray(
+          consumer.readings
+        )
+      ){
+
+        consumer.readings =
+          [];
+
+      }
+
+
+      /*
+        Old version may have had
+        consumer.photo.
+
+        We don't use it as monthly photo.
+        Existing old consumers remain safe.
+      */
+
+    }
+  );
+
+}
+
+
+/* ==================================================
+   SAVE DATA
+================================================== */
+
+function saveData(){
+
+  try{
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(data)
+    );
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Storage error:",
+      error
+    );
+
+
+    alert(
+      "Data save nahi ho pa raha. Browser storage full ho sakta hai."
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+/* ==================================================
    SELECTED CONSUMER
-========================= */
+================================================== */
 
 function getSelectedConsumer(){
 
   return data.consumers.find(
-    c => c.id === data.selected
+    function(consumer){
+
+      return consumer.id === data.selected;
+
+    }
   );
 
 }
 
 
-/* =========================
+/* ==================================================
+   MONTH NAME
+================================================== */
+
+function getMonthName(month){
+
+  if(!month){
+    return "-";
+  }
+
+
+  return new Date(
+    month + "-01"
+  ).toLocaleDateString(
+    "en-IN",
+    {
+      month:"long",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* ==================================================
    PHOTO UPLOAD
-========================= */
+================================================== */
 
 document
-  .getElementById("meterPhoto")
+  .getElementById(
+    "monthlyPhoto"
+  )
   .addEventListener(
     "change",
     function(event){
 
       const file =
+        event.target.files &&
         event.target.files[0];
+
 
       if(!file){
         return;
       }
 
 
-      if(!file.type.startsWith("image/")){
+      if(
+        !file.type.startsWith(
+          "image/"
+        )
+      ){
 
         alert(
           "Please select an image."
         );
+
+
+        event.target.value =
+          "";
+
 
         return;
 
@@ -833,17 +1027,18 @@ document
 
 
       reader.onload =
-        function(e){
+        function(){
 
           compressImage(
-            e.target.result,
-            function(compressed){
+            reader.result,
+            function(photo){
 
-              currentPhoto =
-                compressed;
+              monthlyPhoto =
+                photo;
 
-              showPhoto(
-                compressed
+
+              showMonthlyPhoto(
+                photo
               );
 
             }
@@ -852,15 +1047,27 @@ document
         };
 
 
-      reader.readAsDataURL(file);
+      reader.onerror =
+        function(){
+
+          alert(
+            "Photo read nahi ho payi. Please try again."
+          );
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
 
     }
   );
 
 
-/* =========================
+/* ==================================================
    COMPRESS PHOTO
-========================= */
+================================================== */
 
 function compressImage(
   source,
@@ -875,7 +1082,7 @@ function compressImage(
     function(){
 
       const maxSize =
-        1000;
+        900;
 
 
       let width =
@@ -886,12 +1093,17 @@ function compressImage(
         img.height;
 
 
-      if(width > maxSize){
+      if(
+        width > maxSize
+      ){
 
         height =
-          height *
-          maxSize /
-          width;
+          Math.round(
+            height *
+            maxSize /
+            width
+          );
+
 
         width =
           maxSize;
@@ -899,12 +1111,17 @@ function compressImage(
       }
 
 
-      if(height > maxSize){
+      if(
+        height > maxSize
+      ){
 
         width =
-          width *
-          maxSize /
-          height;
+          Math.round(
+            width *
+            maxSize /
+            height
+          );
+
 
         height =
           maxSize;
@@ -920,6 +1137,7 @@ function compressImage(
 
       canvas.width =
         width;
+
 
       canvas.height =
         height;
@@ -940,11 +1158,25 @@ function compressImage(
       );
 
 
-      callback(
+      const compressed =
         canvas.toDataURL(
           "image/jpeg",
-          0.75
-        )
+          0.65
+        );
+
+
+      callback(
+        compressed
+      );
+
+    };
+
+
+  img.onerror =
+    function(){
+
+      alert(
+        "Photo process nahi ho payi."
       );
 
     };
@@ -956,21 +1188,23 @@ function compressImage(
 }
 
 
-/* =========================
-   SHOW PHOTO
-========================= */
+/* ==================================================
+   SHOW MONTHLY PHOTO
+================================================== */
 
-function showPhoto(photo){
+function showMonthlyPhoto(
+  photo
+){
 
   const preview =
     document.getElementById(
-      "photoPreview"
+      "monthlyPhotoPreview"
     );
 
 
   const placeholder =
     document.getElementById(
-      "photoPlaceholder"
+      "monthlyPhotoPlaceholder"
     );
 
 
@@ -979,21 +1213,25 @@ function showPhoto(photo){
     preview.src =
       photo;
 
+
     preview.style.display =
       "block";
+
 
     placeholder.style.display =
       "none";
 
   }
-
   else{
 
-    preview.src =
-      "";
+    preview.removeAttribute(
+      "src"
+    );
+
 
     preview.style.display =
       "none";
+
 
     placeholder.style.display =
       "block";
@@ -1003,64 +1241,78 @@ function showPhoto(photo){
 }
 
 
-/* =========================
-   REMOVE PHOTO
-========================= */
+/* ==================================================
+   REMOVE MONTHLY PHOTO
+================================================== */
 
-function removePhoto(){
+function removeMonthlyPhoto(){
 
-  currentPhoto =
+  monthlyPhoto =
     "";
+
 
   document
     .getElementById(
-      "meterPhoto"
+      "monthlyPhoto"
     )
     .value =
     "";
 
-  showPhoto("");
+
+  showMonthlyPhoto(
+    ""
+  );
 
 }
 
 
-/* =========================
+/* ==================================================
    SAVE CONSUMER
-========================= */
+================================================== */
 
 function saveConsumer(){
 
   const name =
     document
-      .getElementById("name")
+      .getElementById(
+        "name"
+      )
       .value
       .trim();
 
 
   const consumerNo =
     document
-      .getElementById("consumerNo")
+      .getElementById(
+        "consumerNo"
+      )
       .value
       .trim();
 
 
   const meterNo =
     document
-      .getElementById("meterNo")
+      .getElementById(
+        "meterNo"
+      )
       .value
       .trim();
 
 
   const mobile =
     document
-      .getElementById("mobile")
+      .getElementById(
+        "mobile"
+      )
       .value
       .trim();
 
 
   const address =
     document
-      .getElementById("address")
+      .getElementById(
+        "address"
+      )
       .value
       .trim();
 
@@ -1087,9 +1339,16 @@ function saveConsumer(){
   }
 
 
-  const existing =
+  let existing =
     data.consumers.find(
-      c => c.meterNo === meterNo
+      function(consumer){
+
+        return (
+          consumer.meterNo ===
+          meterNo
+        );
+
+      }
     );
 
 
@@ -1098,28 +1357,23 @@ function saveConsumer(){
     existing.name =
       name;
 
+
     existing.consumerNo =
       consumerNo;
+
 
     existing.mobile =
       mobile;
 
+
     existing.address =
       address;
-
-    if(currentPhoto){
-
-      existing.photo =
-        currentPhoto;
-
-    }
 
 
     data.selected =
       existing.id;
 
   }
-
   else{
 
     const consumer = {
@@ -1142,9 +1396,6 @@ function saveConsumer(){
       address:
         address,
 
-      photo:
-        currentPhoto || "",
-
       readings:
         []
 
@@ -1162,543 +1413,193 @@ function saveConsumer(){
   }
 
 
-  saveData();
+  if(
+    saveData()
+  ){
 
-  renderConsumers();
+    normalizeData();
 
-  renderHistory();
+    renderConsumers();
 
+    renderHistory();
 
-  alert(
-    "Consumer saved successfully. ✅"
-  );
+    updateSelectedConsumerMessage();
+
+    autoFillPreviousReading();
+
+    alert(
+      "Consumer saved successfully. ✅"
+    );
+
+  }
 
 }
 
 
-/* =========================
+/* ==================================================
    SELECT CONSUMER
-========================= */
+================================================== */
 
-function selectConsumer(id){
+function selectConsumer(
+  id
+){
+
+  const consumer =
+    data.consumers.find(
+      function(c){
+
+        return c.id === id;
+
+      }
+    );
+
+
+  if(!consumer){
+    return;
+  }
+
 
   data.selected =
     id;
 
 
-  const c =
-    getSelectedConsumer();
-
-
-  if(!c){
-    return;
-  }
-
-
-  document.getElementById("name").value =
-    c.name || "";
-
-
-  document.getElementById("consumerNo").value =
-    c.consumerNo || "";
-
-
-  document.getElementById("meterNo").value =
-    c.meterNo || "";
-
-
-  document.getElementById("mobile").value =
-    c.mobile || "";
-
-
-  document.getElementById("address").value =
-    c.address || "";
-
-
-  currentPhoto =
-    c.photo || "";
-
-
-  showPhoto(
-    currentPhoto
-  );
+  document
+    .getElementById("name")
+    .value =
+    consumer.name || "";
 
 
   document
-    .getElementById(
-      "meterPhoto"
-    )
+    .getElementById("consumerNo")
     .value =
-    "";
+    consumer.consumerNo || "";
+
+
+  document
+    .getElementById("meterNo")
+    .value =
+    consumer.meterNo || "";
+
+
+  document
+    .getElementById("mobile")
+    .value =
+    consumer.mobile || "";
+
+
+  document
+    .getElementById("address")
+    .value =
+    consumer.address || "";
+
+
+  /*
+    IMPORTANT:
+    When selecting consumer,
+    don't load old photo into
+    monthly photo automatically.
+
+    Every month gets a NEW photo.
+  */
+
+  removeMonthlyPhoto();
+
+
+  autoFillPreviousReading();
 
 
   saveData();
+
 
   renderConsumers();
 
   renderHistory();
 
+  updateSelectedConsumerMessage();
+
 }
 
 
-/* =========================
-   DELETE CONSUMER
-========================= */
+/* ==================================================
+   AUTO PREVIOUS READING
+================================================== */
 
-function deleteConsumer(id){
+function autoFillPreviousReading(){
+
+  const consumer =
+    getSelectedConsumer();
+
+
+  if(!consumer){
+
+    document
+      .getElementById(
+        "previous"
+      )
+      .value =
+      "";
+
+    return;
+
+  }
+
 
   if(
-    !confirm(
-      "Delete this consumer and all monthly records?"
-    )
+    !Array.isArray(
+      consumer.readings
+    ) ||
+    consumer.readings.length === 0
   ){
 
-    return;
-
-  }
-
-
-  data.consumers =
-    data.consumers.filter(
-      c => c.id !== id
-    );
-
-
-  if(data.selected === id){
-
-    data.selected =
-      null;
-
-    clearForm();
-
-  }
-
-
-  saveData();
-
-  renderConsumers();
-
-  renderHistory();
-
-
-  document.getElementById("bill").innerHTML =
-    '<div class="empty">Select a consumer and calculate a bill.</div>';
-
-}
-
-
-/* =========================
-   CLEAR FORM
-========================= */
-
-function clearForm(){
-
-  document.getElementById("name").value =
-    "";
-
-  document.getElementById("consumerNo").value =
-    "";
-
-  document.getElementById("meterNo").value =
-    "";
-
-  document.getElementById("mobile").value =
-    "";
-
-  document.getElementById("address").value =
-    "";
-
-  removePhoto();
-
-}
-
-
-/* =========================
-   SAVE READING
-========================= */
-
-function saveReading(){
-
-  const consumer =
-    getSelectedConsumer();
-
-
-  if(!consumer){
-
-    alert(
-      "First select or save a consumer."
-    );
-
-    return;
-
-  }
-
-
-  const month =
     document
-      .getElementById("month")
-      .value;
-
-
-  const previous =
-    Number(
-      document
-        .getElementById("previous")
-        .value
-    );
-
-
-  const current =
-    Number(
-      document
-        .getElementById("current")
-        .value
-    );
-
-
-  const rate =
-    Number(
-      document
-        .getElementById("rate")
-        .value
-    );
-
-
-  if(!month){
-
-    alert(
-      "Please select month."
-    );
-
-    return;
-
-  }
-
-
-  if(current < previous){
-
-    alert(
-      "Current reading cannot be less than previous reading."
-    );
-
-    return;
-
-  }
-
-
-  const units =
-    current - previous;
-
-
-  const amount =
-    units * rate;
-
-
-  const existing =
-    consumer.readings.find(
-      r => r.month === month
-    );
-
-
-  if(existing){
-
-    existing.previous =
-      previous;
-
-    existing.current =
-      current;
-
-    existing.units =
-      units;
-
-    existing.rate =
-      rate;
-
-    existing.amount =
-      amount;
-
-    existing.photo =
-      consumer.photo || "";
-
-  }
-
-  else{
-
-    consumer.readings.push({
-
-      month:
-        month,
-
-      previous:
-        previous,
-
-      current:
-        current,
-
-      units:
-        units,
-
-      rate:
-        rate,
-
-      amount:
-        amount,
-
-      photo:
-        consumer.photo || ""
-
-    });
-
-  }
-
-
-  consumer.readings.sort(
-    (a,b) =>
-      a.month.localeCompare(
-        b.month
+      .getElementById(
+        "previous"
       )
-  );
-
-
-  saveData();
-
-  renderHistory();
-
-  createBill(month);
-
-
-  alert(
-    "Monthly reading saved. ✅"
-  );
-
-}
-
-
-/* =========================
-   CALCULATE BILL
-========================= */
-
-function calculateBill(){
-
-  const consumer =
-    getSelectedConsumer();
-
-
-  if(!consumer){
-
-    alert(
-      "First select a consumer."
-    );
+      .value =
+      "";
 
     return;
 
   }
 
 
-  const month =
+  const sorted =
+    [...consumer.readings]
+      .sort(
+        function(a,b){
+
+          return b.month.localeCompare(
+            a.month
+          );
+
+        }
+      );
+
+
+  const latest =
+    sorted[0];
+
+
+  if(latest){
+
     document
-      .getElementById("month")
-      .value;
-
-
-  if(!month){
-
-    alert(
-      "Select a month."
-    );
-
-    return;
+      .getElementById(
+        "previous"
+      )
+      .value =
+      latest.current;
 
   }
-
-
-  const previous =
-    Number(
-      document
-        .getElementById("previous")
-        .value
-    );
-
-
-  const current =
-    Number(
-      document
-        .getElementById("current")
-        .value
-    );
-
-
-  const rate =
-    Number(
-      document
-        .getElementById("rate")
-        .value
-    );
-
-
-  if(current < previous){
-
-    alert(
-      "Current reading cannot be less than previous reading."
-    );
-
-    return;
-
-  }
-
-
-  const units =
-    current - previous;
-
-
-  const amount =
-    units * rate;
-
-
-  showBill(
-    consumer,
-    month,
-    previous,
-    current,
-    units,
-    rate,
-    amount
-  );
 
 }
 
 
-/* =========================
-   CREATE BILL
-========================= */
+/* ==================================================
+   MONTH CHANGE
+================================================== */
 
-function createBill(month){
-
-  const consumer =
-    getSelectedConsumer();
-
-
-  if(!consumer){
-    return;
-  }
-
-
-  const r =
-    consumer.readings.find(
-      x => x.month === month
-    );
-
-
-  if(!r){
-    return;
-  }
-
-
-  showBill(
-
-    consumer,
-
-    r.month,
-
-    r.previous,
-
-    r.current,
-
-    r.units,
-
-    r.rate,
-
-    r.amount
-
-  );
-
-}
-
-
-/* =========================
-   SHOW BILL
-========================= */
-
-function showBill(
-  consumer,
-  month,
-  previous,
-  current,
-  units,
-  rate,
-  amount
-){
-
-  const formattedMonth =
-    new Date(
-      month + "-01"
-    ).toLocaleDateString(
-      "en-IN",
-      {
-        month:"long",
-        year:"numeric"
-      }
-    );
-
-
-  const photoHTML =
-    consumer.photo
-    ?
-    `
-      <div style="margin-top:15px">
-
-        <strong>
-          Meter Photo
-        </strong>
-
-        <br><br>
-
-        <img
-          class="bill-photo"
-          src="${consumer.photo}"
-          alt="Meter Photo">
-
-      </div>
-    `
-    :
-    "";
-
-
-  document.getElementById("bill").innerHTML = `
-
-    <div class="bill-head">
-
-      <div>
-
-        <h2>
-          ⚡ Electricity Bill
-        </h2>
-
-        <strong>
-          Lavanya Singh Electricity Board
-        </strong>
-
-      </div>
-
-
-      <div>
-
-        <span class="badge">
-          ${formattedMonth}
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <p>
-      <strong>Consumer:</strong>
-      ${escapeHTML(consumer.name)}
-    </p>
-
-
-    <p>
-      <strong>Consumer No:</strong>
-      ${escapeHTML(
-        consumer
+document
+  .getElementById(
+    "month"
+  )
+  .add
