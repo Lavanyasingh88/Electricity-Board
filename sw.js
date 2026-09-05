@@ -1,104 +1,39 @@
 const CACHE_NAME = "electricity-board-v2";
 
-const FILES_TO_CACHE = [
+const ASSETS = [
   "./",
   "./index.html",
   "./manifest.webmanifest"
 ];
 
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+  );
 
-/* INSTALL */
+  self.skipWaiting();
+});
 
-self.addEventListener(
-  "install",
-  event => {
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames
+          .filter((cacheName) => cacheName !== CACHE_NAME)
+          .map((cacheName) => caches.delete(cacheName))
+      )
+    )
+  );
 
-    event.waitUntil(
+  self.clients.claim();
+});
 
-      caches
-        .open(CACHE_NAME)
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
 
-        .then(
-          cache => {
-
-            return cache.addAll(
-              FILES_TO_CACHE
-            );
-
-          }
-        )
-
-    );
-
-    self.skipWaiting();
-
-  }
-);
-
-
-/* ACTIVATE */
-
-self.addEventListener(
-  "activate",
-  event => {
-
-    event.waitUntil(
-
-      caches
-        .keys()
-
-        .then(
-          keys => {
-
-            return Promise.all(
-
-              keys
-                .filter(
-                  key =>
-                    key !== CACHE_NAME
-                )
-
-                .map(
-                  key =>
-                    caches.delete(key)
-                )
-
-            );
-
-          }
-        )
-
-    );
-
-    self.clients.claim();
-
-  }
-);
-
-
-/* FETCH */
-
-self.addEventListener(
-  "fetch",
-  event => {
-
-    event.respondWith(
-
-      caches
-        .match(event.request)
-
-        .then(
-          response => {
-
-            return (
-              response ||
-              fetch(event.request)
-            );
-
-          }
-        )
-
-    );
-
-  }
-);
+  event.respondWith(
+    caches.match(event.request).then((cachedFile) => {
+      return cachedFile || fetch(event.request);
+    })
+  );
+});
